@@ -25,7 +25,6 @@
         android:layout_alignParentBottom="true"
         >
 
-        //toolbar
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/home_toolbar"
             android:layout_height="50dp"

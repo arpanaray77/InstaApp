@@ -97,7 +97,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -117,7 +117,7 @@
                             android:text="Posts"
                             android:textColor="@android:color/black"
                             android:textSize="12dp"
-                            android:textStyle="bold" />
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -143,7 +143,7 @@
                             android:text="Followers"
                             android:textColor="@android:color/black"
                             android:textSize="12dp"
-                            android:textStyle="bold" />
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -169,7 +169,7 @@
                             android:text="Following"
                             android:textColor="@android:color/black"
                             android:textSize="12dp"
-                            android:textStyle="bold" />
+                            />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -187,14 +187,28 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/name_in_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="2dp"
+                android:textStyle="bold"
+                android:textSize="13dp"
+                android:textColor="@android:color/black"/>
+
                 <TextView
                     android:id="@+id/bio_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:text="Bio"
+                    android:layout_marginTop="2dp"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:textSize="12dp"
+                    android:textColor="@android:color/black"/>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -216,30 +230,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/postGrid"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/grid"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         />
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/postITV"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/camera"
+                        android:src="@drawable/itv"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
                         android:layout_centerVertical="true"
                         android:layout_centerInParent="true"
                         />
-                    <ImageView
+
+                    <ImageButton
                         android:id="@+id/postTagged"
                         android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/options"
-                        android:layout_centerVertical="true"
+                        android:layout_height="0dp"
                         android:layout_alignParentEnd="true"
-                        />
+                        android:layout_centerVertical="false"
+                        android:layout_marginEnd="0dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/tagged" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
