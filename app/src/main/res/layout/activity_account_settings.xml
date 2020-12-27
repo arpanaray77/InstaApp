@@ -130,19 +130,6 @@
                 android:inputType="text"
                 android:textSize="22sp"
                 android:hint="Bio"/>
-
-            <Button
-                android:id="@+id/accountSettings_editbtn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center_horizontal"
-                android:text="Edit"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                />
         </LinearLayout>
     </RelativeLayout>
     <Button
