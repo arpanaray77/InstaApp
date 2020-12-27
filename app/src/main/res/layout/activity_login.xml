@@ -59,14 +59,14 @@
         />
 
     <TextView
-        android:id="@+id/signup_link_btn"
+        android:id="@+id/signup_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="6dp"
         android:text="Don't have an account? Sign Up"
         android:textAllCaps="false"
-        android:textSize="12sp"
+        android:textSize="14dp"
         android:textColor="@android:color/black"
         android:textStyle="normal"
         android:layout_below="@id/login_btn"
