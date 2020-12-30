@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                         } else {
                             val message = task.exception!!.toString()
-                            Toast.makeText(this, "Error : Password or Email Invalid", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Password or Email Invalid", Toast.LENGTH_LONG).show()
                             mAuth.signOut()
                             progressDialog.dismiss()
                         }
