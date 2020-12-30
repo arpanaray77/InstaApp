@@ -18,7 +18,7 @@
         app:tint="@android:color/white" />
 
     <EditText
-        android:id="@+id/login_username"
+        android:id="@+id/login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_logo"
@@ -26,7 +26,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:padding="10dp"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="text"
         android:textSize="18sp"
         android:background="@drawable/inputs_background"/>
@@ -35,7 +35,7 @@
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_username"
+        android:layout_below="@id/login_email"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
