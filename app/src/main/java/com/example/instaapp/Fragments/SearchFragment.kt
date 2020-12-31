@@ -39,11 +39,9 @@ class SearchFragment : Fragment() {
             recyclerView?.adapter = userAdapter
             view.searchitem.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -57,7 +55,6 @@ class SearchFragment : Fragment() {
                         searchUser(s.toString().toLowerCase())
                     }
                 }
-
             })
         return view
     }
@@ -68,7 +65,30 @@ class SearchFragment : Fragment() {
             .child("Users")
             .orderByChild("fullname")
             .startAt(input)
-            .endAt(input)
+            .endAt(input + "\uf8ff")
+
+        query.addValueEventListener(object:ValueEventListener
+        {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                mUser?.clear()
+                if (view?.searchitem?.text.toString() == "") {
+
+                    for(snapshot in datasnapshot.children)
+                    {
+                        //searching all users
+                        val user=snapshot.getValue(User::class.java)
+                        if(user!=null)
+                        {
+                            mUser?.add(user)
+                        }
+                    }
+                    userAdapter?.notifyDataSetChanged()
+                }
+            }
+        })
     }
 
     private fun retrieveUser()
@@ -86,7 +106,7 @@ class SearchFragment : Fragment() {
                     for(snapshot in datasnapshot.children)
                     {
                         //searching all users
-                        val user=snapshot.getValue(User::class.java))
+                        val user=snapshot.getValue(User::class.java)
                         if(user!=null)
                         {
                             mUser?.add(user)
