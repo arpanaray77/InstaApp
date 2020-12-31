@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/searchfragnent_icon"
+                    android:id="@+id/searchfragment_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/search"
@@ -35,7 +35,7 @@
                     android:id="@+id/searchitem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/searchfragnent_icon"
+                    android:layout_alignLeft="@+id/searchfragment_icon"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="35dp"
                     android:layout_marginEnd="1dp"
