@@ -23,7 +23,8 @@ import android.view.View as AndroidViewView
 class UserAdapter (private var mContext:Context,
                    private var mUser:List<User>,
                    private var isFragment:Boolean=false):RecyclerView.Adapter<UserAdapter.ViewHolder>(){
-    private val firebaseUser:FirebaseUser?=null
+
+    private val firebaseUser:FirebaseUser?= com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
         //to make user item available in search item
@@ -110,11 +111,18 @@ class UserAdapter (private var mContext:Context,
 
         followingRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                if(datasnapshot.child(uid).exists())
+                {
+                   followButton.text="Following"
+                }
+                else
+                {
+                    followButton.text="Follow"
+                }
             }
 
         })
