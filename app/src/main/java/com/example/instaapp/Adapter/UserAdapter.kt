@@ -9,6 +9,8 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Model.User
 import com.example.instaapp.R
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import android.view.View as AndroidViewView
@@ -18,6 +20,8 @@ import android.view.View as AndroidViewView
 class UserAdapter (private var mContext:Context,
                    private var mUser:List<User>,
                    private var isFragment:Boolean=false):RecyclerView.Adapter<UserAdapter.ViewHolder>(){
+    private val firebaseUser:FirebaseUser?=null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
         //to make user item available in search item
       val view=LayoutInflater.from(mContext).inflate(R.layout.user_item_layout,parent,false)
@@ -31,11 +35,35 @@ class UserAdapter (private var mContext:Context,
     override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
         //to display the user data
         val user=mUser[position]
-
         holder.userNameTextView.text=user.getUsername()
         holder.userFullnameTextView.text=user.getFullname()
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.userProfileImage) //add picasso dependency for image caching and downloading
+        holder.followButton.setOnClickListener {
+            if(holder.followButton.text.toString()=="Follow") {
+                firebaseUser?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(it1.toString())
+                        .child("Following").child(user.getUid())
+                        .setValue(true).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                firebaseUser?.uid.let { it1 ->
+                                    FirebaseDatabase.getInstance().reference
+                                        .child("Follow").child(user.getUid())
+                                        .child("Followers").child(it1.toString())
+                                        .setValue(true).addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                }
+            }
+            else
+            {
 
+            }
+        }
     }
 
     class ViewHolder(@NonNull itemView: AndroidViewView): RecyclerView.ViewHolder(itemView)
