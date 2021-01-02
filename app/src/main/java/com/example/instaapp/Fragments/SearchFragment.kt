@@ -75,7 +75,6 @@ class SearchFragment : Fragment() {
             }
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 mUser?.clear()
-                if (view?.searchitem?.text.toString() == "") {
 
                     for(snapshot in datasnapshot.children)
                     {
@@ -87,7 +86,6 @@ class SearchFragment : Fragment() {
                         }
                     }
                     userAdapter?.notifyDataSetChanged()
-                }
             }
         })
     }

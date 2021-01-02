@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    android:background="@drawable/button_black_background">
+    >
 
     <RelativeLayout
         android:id="@+id/user_item"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_black_background">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_item_image"
