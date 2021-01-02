@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Adapter.UserAdapter
@@ -97,20 +98,24 @@ class SearchFragment : Fragment() {
         usersSearchRef.addValueEventListener(object:ValueEventListener
         {
             override fun onCancelled(error: DatabaseError) {
-
+            Toast.makeText(context,"Could not read from Database",Toast.LENGTH_LONG).show()
             }
 
-            override fun onDataChange(datasnapshot: DataSnapshot) {
-                if (view?.searchitem?.text.toString() == "") {
-                   mUser?.clear()
-                    for(snapshot in datasnapshot.children)
-                    {
-                        //searching all users
-                        val user=snapshot.getValue(User::class.java)
-                        if(user!=null)
-                        {
-                            mUser?.add(user)
-                        }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                mUser?.clear()
+                for (snapShot in dataSnapshot.children) {
+                    val user = snapShot.getValue(User::class.java)
+                    val fullName = snapShot.child("fullname").getValue().toString()
+                    val userName = snapShot.child("username").getValue().toString()
+                    val email = snapShot.child("email").getValue().toString()
+                    val bio = snapShot.child("bio").getValue().toString()
+                    val image = snapShot.child("image").getValue().toString()
+                    val uid = snapShot.child("uid").getValue().toString()
+
+
+                    User(userName, fullName, bio, image, uid)
+                    if (user != null) {
+                        mUser?.add(User(userName, fullName, bio, image, uid))
                     }
                     userAdapter?.notifyDataSetChanged()
                 }
