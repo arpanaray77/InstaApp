@@ -38,6 +38,7 @@ class UserAdapter (private var mContext:Context,
         holder.userNameTextView.text=user.getUsername()
         holder.userFullnameTextView.text=user.getFullname()
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.userProfileImage) //add picasso dependency for image caching and downloading
+
         holder.followButton.setOnClickListener {
             if(holder.followButton.text.toString()=="Follow") {
                 firebaseUser?.uid.let { it1 ->
