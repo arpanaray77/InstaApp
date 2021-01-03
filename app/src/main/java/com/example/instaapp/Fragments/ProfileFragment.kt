@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.instaapp.AccountSettings
 import com.example.instaapp.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
@@ -24,15 +25,29 @@ class ProfileFragment: Fragment() {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_profile, container, false)
 
+        firebaseUser=FirebaseAuth.getInstance().currentUser!!
         val pref=context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         if(pref!=null)
         {
             this.profileId= pref.getString("profileId","none")!!
+        }
+
+        if(profileId==firebaseUser.uid)
+        {
+            view.edit_profile_Button.text="Edit Profile"
+        }
+        else if(profileId==firebaseUser.uid)
+        {
+            checkFollowOrFollowing()
         }
         //to call account profile setting activity
         view.edit_profile_Button.setOnClickListener{
             startActivity(Intent(context,AccountSettings::class.java))
         }
          return view
+    }
+
+    private fun checkFollowOrFollowing() {
+        TODO("Not yet implemented")
     }
 }
