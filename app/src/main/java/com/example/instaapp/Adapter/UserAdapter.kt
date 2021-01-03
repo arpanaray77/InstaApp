@@ -68,7 +68,7 @@ class UserAdapter (private var mContext:Context,
             }
             else
             {
-                if(holder.followButton.text.toString()=="Follow") {
+                if(holder.followButton.text.toString()=="Following") {
                     firebaseUser?.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
