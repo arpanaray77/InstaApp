@@ -48,6 +48,10 @@ class ProfileFragment: Fragment() {
         view.edit_profile_Button.setOnClickListener{
             startActivity(Intent(context,AccountSettings::class.java))
         }
+        //to show followers and following of a user
+        getFollowers()
+        getFollowing()
+
          return view
     }
 
@@ -64,7 +68,7 @@ class ProfileFragment: Fragment() {
             followingRef.addValueEventListener(object:ValueEventListener
             {
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
