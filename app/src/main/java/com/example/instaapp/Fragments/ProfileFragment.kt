@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.instaapp.AccountSettings
+import com.example.instaapp.Model.User
 import com.example.instaapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,114 +20,118 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class ProfileFragment: Fragment() {
-    private lateinit var profileId:String
-    private lateinit var firebaseUser:FirebaseUser
+    private lateinit var profileId: String
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view= inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        firebaseUser=FirebaseAuth.getInstance().currentUser!!
-        val pref=context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-        if(pref!=null)
-        {
-            this.profileId= pref.getString("profileId","none")!!
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
+        if (pref != null) {
+            this.profileId = pref.getString("profileId", "none")!!
         }
 
-        if(profileId==firebaseUser.uid)
-        {
-            view.edit_profile_Button.text="Edit Profile"
-        }
-        else if(profileId==firebaseUser.uid)
-        {
+        if (profileId == firebaseUser.uid) {
+            view.edit_profile_Button.text = "Edit Profile"
+        } else if (profileId == firebaseUser.uid) {
             checkFollowOrFollowingButtonStatus()
         }
         //to call account profile setting activity
-        view.edit_profile_Button.setOnClickListener{
-            startActivity(Intent(context,AccountSettings::class.java))
+        view.edit_profile_Button.setOnClickListener {
+            startActivity(Intent(context, AccountSettings::class.java))
         }
         //to show followers and following of a user
         getFollowers()
         getFollowing()
 
-         return view
+        return view
     }
 
     private fun checkFollowOrFollowingButtonStatus() {
 
-        val followingRef=firebaseUser?.uid.let { it1->
+        val followingRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
         }
 
-        if(followingRef==null)
-        {
-            followingRef.addValueEventListener(object:ValueEventListener
-            {
+        if (followingRef == null) {
+            followingRef.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
 
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
 
-                    if(p0.child(profileId).exists())
-                    {
-                        view?.edit_profile_Button?.text="Following"
-                    }
-                    else
-                    {
-                        view?.edit_profile_Button?.text="Follow"
+                    if (p0.child(profileId).exists()) {
+                        view?.edit_profile_Button?.text = "Following"
+                    } else {
+                        view?.edit_profile_Button?.text = "Follow"
                     }
                 }
             })
         }
     }
 
-    private fun getFollowers()
-    {
-        val followersRef=firebaseUser?.uid.let { it1->
+    private fun getFollowers() {
+        val followersRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Followers")
-    }
-        followersRef.addValueEventListener(object:ValueEventListener
-        {
+        }
+        followersRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                if(snapshot.exists())
-                {
-                    view?.total_followers?.text=snapshot.childrenCount.toString()
+                if (snapshot.exists()) {
+                    view?.total_followers?.text = snapshot.childrenCount.toString()
                 }
             }
         })
     }
 
-    private fun getFollowing()
-    {
-        val followingsRef=firebaseUser?.uid.let { it1->
+    private fun getFollowing() {
+        val followingsRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
         }
-        followingsRef.addValueEventListener(object:ValueEventListener
-        {
+        followingsRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                if(snapshot.exists())
-                {
-                    view?.total_following?.text=snapshot.childrenCount.toString()
+                if (snapshot.exists()) {
+                    view?.total_following?.text = snapshot.childrenCount.toString()
+                }
+            }
+        })
+    }
+
+    private fun getUserInfo() {
+        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users")
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (context != null) {
+
+                }
+                if (snapshot.exists()) {
+                    val user = snapshot.getValue<User>(User::class.java)
                 }
             }
         })
