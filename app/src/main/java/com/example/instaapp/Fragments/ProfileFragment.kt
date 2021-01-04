@@ -42,7 +42,7 @@ class ProfileFragment: Fragment() {
         }
         else if(profileId==firebaseUser.uid)
         {
-            checkFollowOrFollowing()
+            checkFollowOrFollowingButtonStatus()
         }
         //to call account profile setting activity
         view.edit_profile_Button.setOnClickListener{
@@ -51,7 +51,7 @@ class ProfileFragment: Fragment() {
          return view
     }
 
-    private fun checkFollowOrFollowing() {
+    private fun checkFollowOrFollowingButtonStatus() {
 
         val followingRef=firebaseUser?.uid.let { it1->
             FirebaseDatabase.getInstance().reference
@@ -80,5 +80,51 @@ class ProfileFragment: Fragment() {
                 }
             })
         }
+    }
+
+    private fun getFollowers()
+    {
+        val followersRef=firebaseUser?.uid.let { it1->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(it1.toString())
+                .child("Followers")
+    }
+        followersRef.addValueEventListener(object:ValueEventListener
+        {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if(snapshot.exists())
+                {
+                    view?.total_followers?.text=snapshot.childrenCount.toString()
+                }
+            }
+        })
+    }
+
+    private fun getFollowing()
+    {
+        val followingsRef=firebaseUser?.uid.let { it1->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(it1.toString())
+                .child("Following")
+        }
+        followingsRef.addValueEventListener(object:ValueEventListener
+        {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if(snapshot.exists())
+                {
+                    view?.total_following?.text=snapshot.childrenCount.toString()
+                }
+            }
+        })
     }
 }
