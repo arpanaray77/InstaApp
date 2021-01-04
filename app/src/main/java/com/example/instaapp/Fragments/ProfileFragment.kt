@@ -39,7 +39,7 @@ class ProfileFragment: Fragment() {
 
         if (profileId == firebaseUser.uid) {
             view.edit_profile_Button.text = "Edit Profile"
-        } else if (profileId == firebaseUser.uid) {
+        } else if (profileId != firebaseUser.uid) {
             checkFollowOrFollowingButtonStatus()
         }
         //to call account profile setting activity
@@ -49,6 +49,7 @@ class ProfileFragment: Fragment() {
         //to show followers and following of a user
         getFollowers()
         getFollowing()
+        getUserInfo()
 
         return view
     }
@@ -80,11 +81,10 @@ class ProfileFragment: Fragment() {
     }
 
     private fun getFollowers() {
-        val followersRef = firebaseUser?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it1.toString())
+        val followersRef = FirebaseDatabase.getInstance().reference
+                .child("Follow").child(profileId)
                 .child("Followers")
-        }
+
         followersRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
@@ -100,11 +100,10 @@ class ProfileFragment: Fragment() {
     }
 
     private fun getFollowing() {
-        val followingsRef = firebaseUser?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it1.toString())
+        val followingsRef = FirebaseDatabase.getInstance().reference
+                .child("Follow").child(profileId)
                 .child("Following")
-        }
+
         followingsRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
