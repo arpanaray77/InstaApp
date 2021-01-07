@@ -70,14 +70,16 @@ class UserAdapter (private var mContext:Context,
                                         .child("Follow").child(user.getUid())
                                         .child("Followers").child(it1.toString())
                                         .setValue(true).addOnCompleteListener { task ->
-                                            if (task.isSuccessful) {
+                                            if (task.isSuccessful)
+                                            {
+
                                             }
                                         }
+                                    }
                                 }
                             }
                         }
-                }
-            }
+                    }
             else
             {
                 if(holder.followButton.text.toString()=="Following") {
@@ -85,19 +87,19 @@ class UserAdapter (private var mContext:Context,
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
                             .child("Following").child(user.getUid())
-                            .setValue(true).addOnCompleteListener { task ->
+                            .removeValue().addOnCompleteListener { task -> //reversing following action
                                 if (task.isSuccessful) {
                                     firebaseUser?.uid.let { it1 ->
                                         FirebaseDatabase.getInstance().reference
                                             .child("Follow").child(user.getUid())
                                             .child("Followers").child(it1.toString())
-                                            .setValue(true).addOnCompleteListener { task ->
+                                            .removeValue().addOnCompleteListener { task ->
                                                 if (task.isSuccessful) {
                                                 }
                                             }
                                     }
                                 }
-                            }
+                         }
                     }
                 }
             }
