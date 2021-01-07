@@ -65,6 +65,7 @@ class UserAdapter (private var mContext:Context,
                         .child("Following").child(user.getUid())
                         .setValue(true).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+
                                 firebaseUser?.uid.let { it1 ->
                                     FirebaseDatabase.getInstance().reference
                                         .child("Follow").child(user.getUid())
