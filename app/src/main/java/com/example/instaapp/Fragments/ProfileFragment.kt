@@ -119,7 +119,7 @@ class ProfileFragment: Fragment() {
     }
 
     private fun getUserInfo() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child("profileId")
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
