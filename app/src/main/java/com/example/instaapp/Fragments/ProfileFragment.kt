@@ -49,7 +49,7 @@ class ProfileFragment: Fragment() {
         //to show followers and following of a user
         getFollowers()
         getFollowing()
-        getUserInfo()
+        getUserInfo(view)
 
         return view
     }
@@ -118,7 +118,7 @@ class ProfileFragment: Fragment() {
         })
     }
 
-    private fun getUserInfo() {
+    private fun getUserInfo(view: View) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -127,15 +127,12 @@ class ProfileFragment: Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                if (context != null) {
-                      return
-                }
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view?.profile_image_profile)
-                    view?.fullname_in_profile?.text= user.getFullname()
-                    view?.username_in_profile?.text= user.getUsername()
-                    view?.bio_profile?.text= user.getBio()
+                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view.profile_image_profile)
+                    view.fullname_in_profile?.text= user.getFullname()
+                    view.username_in_profile?.text= user.getUsername()
+                    view.bio_profile?.text= user.getBio()
 
                 }
             }
