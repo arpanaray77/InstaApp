@@ -44,7 +44,49 @@ class ProfileFragment: Fragment() {
         }
         //to call account profile setting activity
         view.edit_profile_Button.setOnClickListener {
-            startActivity(Intent(context, AccountSettings::class.java))
+            val getButtontext = view.edit_profile_Button.text.toString()
+            when {
+                getButtontext == "Edit Profile" -> startActivity(
+                    Intent(
+                        context,
+                        AccountSettings::class.java
+                    )
+                )
+
+                getButtontext == "Follow" -> {
+
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Following").child(profileId)
+                            .setValue(true)
+                    }
+
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Followers").child(profileId)
+                            .setValue(true)
+                    }
+                }
+
+                getButtontext == "Following" -> {
+
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Following").child(profileId)
+                            .removeValue()
+                    }
+
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Followers").child(profileId)
+                            .removeValue()
+                    }
+                }
+            }
         }
         //to show followers and following of a user
         getFollowers()
