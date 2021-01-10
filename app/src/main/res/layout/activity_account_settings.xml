@@ -99,7 +99,7 @@
             android:textColor="@color/colorPrimary" />
 
             <EditText
-                android:id="@+id/accountSettings_name_profile"
+                android:id="@+id/accountSettings_fullname_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -110,7 +110,7 @@
                 android:hint="Full name"/>
 
             <EditText
-                android:id="@+id/accountSettings_bio_profile"
+                android:id="@+id/accountSettings_username_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -121,15 +121,15 @@
                 android:hint="UserName"/>
 
             <EditText
-                android:id="@+id/accountSettings_profile"
+                android:id="@+id/accountSettings_bio_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
+                android:hint="Bio"
                 android:inputType="text"
-                android:textSize="22sp"
-                android:hint="Bio"/>
+                android:textSize="22sp" />
         </LinearLayout>
     </RelativeLayout>
     <Button

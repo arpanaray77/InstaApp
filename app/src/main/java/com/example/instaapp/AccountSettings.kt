@@ -5,15 +5,30 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
+import com.example.instaapp.Model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_account_settings.*
+import kotlinx.android.synthetic.main.activity_account_settings.view.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class AccountSettings : AppCompatActivity() {
+
+    private lateinit var firebaseUser: FirebaseUser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_settings)
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         accountSettings_logoutbtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -23,5 +38,26 @@ class AccountSettings : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun getUserInfo() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.exists()) {
+                    val user = snapshot.getValue<User>(User::class.java)
+                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_profile)
+                    accountSettings_fullname_profile?.setText(user.getFullname())
+                    accountSettings_username_profile?.setText(user.getUsername())
+                    accountSettings_username_profile?.setText(user.getBio())
+
+                }
+            }
+        })
     }
 }
