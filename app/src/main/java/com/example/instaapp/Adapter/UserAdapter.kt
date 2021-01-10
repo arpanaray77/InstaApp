@@ -77,7 +77,7 @@ class UserAdapter (private var mContext:Context,
                 pref.apply()
 
                 (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container,ProfileFragment()).commit()
+                    .replace(R.id.fragment_container,ProfileFragment()).commit()
 
                 Log.d("Holder", "Click")
             }
