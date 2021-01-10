@@ -62,10 +62,9 @@ class ProfileFragment: Fragment() {
                 .child("Following")
         }
 
-        if (followingRef == null) {
+        if (followingRef != null) {
             followingRef.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
