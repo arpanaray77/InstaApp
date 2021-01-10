@@ -2,9 +2,15 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_margin="10dp"
     >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        >
 
     <RelativeLayout
         android:id="@+id/user_item"
@@ -20,7 +26,10 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:padding="5dp"
-            android:src="@drawable/profile"></de.hdodenhof.circleimageview.CircleImageView>
+            android:onClick="onClick"
+            android:src="@drawable/profile">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:id="@+id/user_item_search_username"
@@ -60,5 +69,5 @@
             android:textSize="12sp"
             android:textStyle="bold" />
     </RelativeLayout>
-
+    </RelativeLayout>
 </RelativeLayout>

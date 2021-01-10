@@ -1,14 +1,21 @@
 package com.example.instaapp.Adapter
 
+import android.app.PendingIntent.getActivity
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Fragments.ProfileFragment
+import com.example.instaapp.Fragments.SearchFragment
 import com.example.instaapp.Model.User
 import com.example.instaapp.R
 import com.google.firebase.auth.FirebaseUser
@@ -16,9 +23,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.platforminfo.GlobalLibraryVersionRegistrar.getInstance
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import android.view.View as AndroidViewView
+
 
 //import com.google.firebase.database.core.view.View
 
@@ -31,7 +40,8 @@ class UserAdapter (private var mContext:Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
         //to make user item available in search item
       val view=LayoutInflater.from(mContext).inflate(R.layout.user_item_layout,parent,false)
-         return UserAdapter.ViewHolder(view)
+
+        return UserAdapter.ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -48,14 +58,30 @@ class UserAdapter (private var mContext:Context,
         checkFollowingStatus(user.getUid(),holder.followButton)
 
         //to go to searched user's profile
-        holder.itemView.setOnClickListener { android.view.View.OnClickListener {
-            val pref=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit()
-            pref.putString("profileId",user.getUid())
-            pref.apply()
+//        holder.itemView.setOnClickListener { AndroidViewView.OnClickListener {
+//
+//            val pref=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit()
+//            pref.putString("profileId",user.getUid())
+//            pref.apply()
+//
+//            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+//                .add(R.id.fragment_container,ProfileFragment()).commit()
+//
+//            Log.d("Holder", "Click")
+//        }}
 
-            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,ProfileFragment()).commit()
-        } }
+        holder.userProfileImage.setOnClickListener(object : AndroidViewView.OnClickListener {
+            override fun onClick(v: AndroidViewView?) {
+                val pref=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit()
+                pref.putString("profileId",user.getUid())
+                pref.apply()
+
+                (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container,ProfileFragment()).commit()
+
+                Log.d("Holder", "Click")
+            }
+        })
 
         holder.followButton.setOnClickListener {
             if(holder.followButton.text.toString()=="Follow") {
@@ -115,9 +141,8 @@ class UserAdapter (private var mContext:Context,
         var followButton: Button =itemView.findViewById(R.id.user_item_follow)
     }
 
-    private fun checkFollowingStatus(uid:String,followButton: Button)
-    {
-        val followingRef=firebaseUser?.uid.let { it1 ->
+    private fun checkFollowingStatus(uid:String,followButton: Button) {
+        val followingRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
@@ -130,15 +155,13 @@ class UserAdapter (private var mContext:Context,
             }
 
             override fun onDataChange(datasnapshot: DataSnapshot) {
-                if(datasnapshot.child(uid).exists())
-                {
-                   followButton.text="Following"
-                }
-                else
-                {
-                    followButton.text="Follow"
+                if (datasnapshot.child(uid).exists()) {
+                    followButton.text = "Following"
+                } else {
+                    followButton.text = "Follow"
                 }
             }
+
 
         })
     }
