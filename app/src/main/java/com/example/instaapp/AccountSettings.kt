@@ -43,9 +43,10 @@ class AccountSettings : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        getUserInfo(view)
         return view
     }
-    private fun getUserInfo() {
+    private fun getUserInfo(view:View) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -57,9 +58,9 @@ class AccountSettings : AppCompatActivity() {
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_profile)
-                    accountSettings_fullname_profile?.setText(user.getFullname())
-                    accountSettings_username_profile?.setText(user.getUsername())
-                    accountSettings_username_profile?.setText(user.getBio())
+                    view.accountSettings_fullname_profile?.setText(user.getFullname())
+                    view.accountSettings_username_profile?.setText(user.getUsername())
+                    view.accountSettings_username_profile?.setText(user.getBio())
 
                 }
             }
