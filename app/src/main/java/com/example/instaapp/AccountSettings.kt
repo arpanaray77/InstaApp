@@ -5,7 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import com.example.instaapp.Model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -24,9 +26,12 @@ class AccountSettings : AppCompatActivity() {
 
     private lateinit var firebaseUser: FirebaseUser
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account_settings)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.activity_account_settings, container, false)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
@@ -38,8 +43,8 @@ class AccountSettings : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        return view
     }
-
     private fun getUserInfo() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
         usersRef.addValueEventListener(object : ValueEventListener {
