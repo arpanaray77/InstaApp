@@ -55,13 +55,19 @@ class AccountSettings : AppCompatActivity() {
 
     private fun updateUserInfoOnly() {
 
-        val userRef : DatabaseReference =FirebaseDatabase.getInstance().reference.child("Users")
-        //using hashmap to store values
-        val userMap=HashMap<String,Any>()
-        userMap["fullname"]=accountSettings_fullname_profile.text.toString().toLowerCase()
-        userMap["username"]=accountSettings_username_profile.text.toString().toLowerCase()
-        userMap["bio"]=accountSettings_bio_profile.text.toString().toLowerCase()
+        if (TextUtils.isEmpty(accountSettings_fullname_profile.text.toString())) {
+            Toast.makeText(this, "Full Name is required", Toast.LENGTH_SHORT).show()
+        } else if (TextUtils.isEmpty(accountSettings_username_profile.text.toString())) {
+            Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
+        } else {
+            val userRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+            //using hashmap to store values
+            val userMap = HashMap<String, Any>()
+            userMap["fullname"] = accountSettings_fullname_profile.text.toString().toLowerCase()
+            userMap["username"] = accountSettings_username_profile.text.toString().toLowerCase()
+            userMap["bio"] = accountSettings_bio_profile.text.toString().toLowerCase()
 
+        }
     }
 
     private fun getUserInfo() {
