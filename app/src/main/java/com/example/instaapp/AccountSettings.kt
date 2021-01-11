@@ -26,14 +26,12 @@ class AccountSettings : AppCompatActivity() {
 
     private lateinit var firebaseUser: FirebaseUser
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.activity_account_settings, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_account_settings)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        getUserInfo()
 
         accountSettings_logoutbtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -43,10 +41,8 @@ class AccountSettings : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        getUserInfo(view)
-        return view
     }
-    private fun getUserInfo(view:View) {
+    private fun getUserInfo() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -58,9 +54,9 @@ class AccountSettings : AppCompatActivity() {
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_profile)
-                    view.accountSettings_fullname_profile?.setText(user.getFullname())
-                    view.accountSettings_username_profile?.setText(user.getUsername())
-                    view.accountSettings_username_profile?.setText(user.getBio())
+                    accountSettings_fullname_profile?.setText(user.getFullname())
+                    accountSettings_username_profile?.setText(user.getUsername())
+                    accountSettings_username_profile?.setText(user.getBio())
 
                 }
             }
