@@ -56,7 +56,7 @@ class AccountSettings : AppCompatActivity() {
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_profile)
                     accountSettings_fullname_profile?.setText(user.getFullname())
                     accountSettings_username_profile?.setText(user.getUsername())
-                    accountSettings_username_profile?.setText(user.getBio())
+                    accountSettings_bio_profile?.setText(user.getBio())
 
                 }
             }

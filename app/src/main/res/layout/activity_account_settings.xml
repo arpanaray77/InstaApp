@@ -106,7 +106,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:inputType="text"
-                android:textSize="22sp"
+                android:textSize="15sp"
                 android:hint="Full name"/>
 
             <EditText
@@ -117,7 +117,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:inputType="text"
-                android:textSize="22sp"
+                android:textSize="15sp"
                 android:hint="UserName"/>
 
             <EditText
@@ -129,7 +129,7 @@
                 android:layout_marginRight="5dp"
                 android:hint="Bio"
                 android:inputType="text"
-                android:textSize="22sp" />
+                android:textSize="15sp" />
         </LinearLayout>
     </RelativeLayout>
     <Button
