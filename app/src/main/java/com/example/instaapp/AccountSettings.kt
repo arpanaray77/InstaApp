@@ -55,18 +55,30 @@ class AccountSettings : AppCompatActivity() {
 
     private fun updateUserInfoOnly() {
 
-        if (TextUtils.isEmpty(accountSettings_fullname_profile.text.toString())) {
-            Toast.makeText(this, "Full Name is required", Toast.LENGTH_SHORT).show()
-        } else if (TextUtils.isEmpty(accountSettings_username_profile.text.toString())) {
-            Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
-        } else {
-            val userRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
-            //using hashmap to store values
-            val userMap = HashMap<String, Any>()
-            userMap["fullname"] = accountSettings_fullname_profile.text.toString().toLowerCase()
-            userMap["username"] = accountSettings_username_profile.text.toString().toLowerCase()
-            userMap["bio"] = accountSettings_bio_profile.text.toString().toLowerCase()
+        when {
+            TextUtils.isEmpty(accountSettings_fullname_profile.text.toString()) -> {
+                Toast.makeText(this, "Full Name is required", Toast.LENGTH_SHORT).show()
+            }
+            TextUtils.isEmpty(accountSettings_username_profile.text.toString()) -> {
+                Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                val userRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+                //using hashmap to store values
+                val userMap = HashMap<String, Any>()
+                userMap["fullname"] = accountSettings_fullname_profile.text.toString().toLowerCase()
+                userMap["username"] = accountSettings_username_profile.text.toString().toLowerCase()
+                userMap["bio"] = accountSettings_bio_profile.text.toString().toLowerCase()
 
+                userRef.child(firebaseUser.uid).updateChildren(userMap)
+
+                Toast.makeText(this, "Account is updated", Toast.LENGTH_SHORT).show()
+
+                val intent=Intent(this@AccountSettings,MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 
