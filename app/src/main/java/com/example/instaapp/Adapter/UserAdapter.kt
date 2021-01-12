@@ -58,17 +58,6 @@ class UserAdapter (private var mContext:Context,
         checkFollowingStatus(user.getUid(),holder.followButton)
 
         //to go to searched user's profile
-//        holder.itemView.setOnClickListener { AndroidViewView.OnClickListener {
-//
-//            val pref=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit()
-//            pref.putString("profileId",user.getUid())
-//            pref.apply()
-//
-//            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-//                .add(R.id.fragment_container,ProfileFragment()).commit()
-//
-//            Log.d("Holder", "Click")
-//        }}
 
         holder.userProfileImage.setOnClickListener(object : AndroidViewView.OnClickListener {
             override fun onClick(v: AndroidViewView?) {

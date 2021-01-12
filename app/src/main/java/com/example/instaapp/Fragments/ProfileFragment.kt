@@ -65,8 +65,8 @@ class ProfileFragment: Fragment() {
 
                     firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(it1.toString())
-                            .child("Followers").child(profileId)
+                            .child("Follow").child(profileId)
+                            .child("Followers").child(it1.toString())
                             .setValue(true)
                     }
                 }
@@ -82,8 +82,8 @@ class ProfileFragment: Fragment() {
 
                     firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(it1.toString())
-                            .child("Followers").child(profileId)
+                            .child("Follow").child(profileId)
+                            .child("Followers").child(it1.toString())
                             .removeValue()
                     }
                 }
