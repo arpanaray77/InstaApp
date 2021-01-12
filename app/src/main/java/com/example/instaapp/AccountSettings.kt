@@ -57,7 +57,7 @@ class AccountSettings : AppCompatActivity() {
         save_edited_info.setOnClickListener {
             if (checker == "clicked")
             {
-
+              uploadProfileImage()
             }
             else
             {
@@ -67,13 +67,27 @@ class AccountSettings : AppCompatActivity() {
         }
     }
 
+    private fun uploadProfileImage() {
+        when {
+            TextUtils.isEmpty(accountSettings_fullname_profile.text.toString()) -> {
+                Toast.makeText(this, "Full Name is required", Toast.LENGTH_SHORT).show()
+            }
+            TextUtils.isEmpty(accountSettings_username_profile.text.toString()) -> {
+                Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
+            }
+
+            TextUtils.isEmpty(accountSettings_username_profile.text.toString()) -> {
+                Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null)
-        {
-            val result=CropImage.getActivityResult(data)
-            imageUri=result.uri
+        if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null) {
+            val result = CropImage.getActivityResult(data)
+            imageUri = result.uri
             profile_image_profile.setImageURI(imageUri)
         }
 
