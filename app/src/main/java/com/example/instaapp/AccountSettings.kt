@@ -1,7 +1,9 @@
 package com.example.instaapp
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_settings.*
 import kotlinx.android.synthetic.main.activity_account_settings.view.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -22,7 +25,9 @@ import kotlinx.android.synthetic.main.fragment_profile.view.*
 class AccountSettings : AppCompatActivity() {
 
     private lateinit var firebaseUser: FirebaseUser
-    private var checker= null
+    private var checker:String?= null
+    private  var myUrl=""
+    private  var imageUri: Uri?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,15 @@ class AccountSettings : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        //edit user's profile Image
+        accountSettings_change_profile.setOnClickListener {
+             checker="clicked"
+
+            CropImage.activity()
+                .setAspectRatio(1,1)
+                .start(this@AccountSettings)
+        }
    //editing user information
         save_edited_info.setOnClickListener {
             if (checker == "clicked")
@@ -51,6 +65,18 @@ class AccountSettings : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null)
+        {
+            val result=CropImage.getActivityResult(data)
+            imageUri=result.uri
+            profile_image_profile.setImageURI(imageUri)
+        }
+
     }
 
     private fun updateUserInfoOnly() {
