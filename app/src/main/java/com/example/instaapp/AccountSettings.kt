@@ -77,6 +77,11 @@ class AccountSettings : AppCompatActivity() {
     }
 
     private fun uploadProfileImage() {
+        val progressDialog=ProgressDialog(this)
+        progressDialog.setTitle("Profile Settings")
+        progressDialog.setMessage("updating...")
+        progressDialog.show()
+
         when {
             imageUri == null -> Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT)
                 .show()
@@ -111,9 +116,16 @@ class AccountSettings : AppCompatActivity() {
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)
+                        Toast.makeText(this, "Account is updated", Toast.LENGTH_SHORT).show()
 
+                        val intent=Intent(this@AccountSettings,MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        finish()
 
                     }
+                    else
+                        progressDialog.dismiss()
 
                 } }
             }
