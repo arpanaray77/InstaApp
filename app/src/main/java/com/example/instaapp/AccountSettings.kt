@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.instaapp.Model.User
 import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -93,8 +94,28 @@ class AccountSettings : AppCompatActivity() {
                 uploadTask = fileRef.putFile(imageUri!!)
 
                 uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                })
+                    if(!task.isSuccessful) task.exception?.let { throw it }
 
+                    return@Continuation fileRef.downloadUrl
+                }).addOnCompleteListener { OnCompleteListener<Uri>{task ->
+                    if(!task.isSuccessful)
+                    {
+                        val downloadUrl=task.result
+                        myUrl=downloadUrl.toString()
+
+                        val ref=FirebaseDatabase.getInstance().reference.child("Users")
+                        val userMap = HashMap<String, Any>()
+                        userMap["fullname"] = accountSettings_fullname_profile.text.toString().toLowerCase()
+                        userMap["username"] = accountSettings_username_profile.text.toString().toLowerCase()
+                        userMap["bio"] = accountSettings_bio_profile.text.toString().toLowerCase()
+                        userMap["image"] = myUrl
+
+                        ref.child(firebaseUser.uid).updateChildren(userMap)
+
+
+                    }
+
+                } }
             }
         }
     }
