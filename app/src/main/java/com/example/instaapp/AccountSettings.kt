@@ -77,10 +77,6 @@ class AccountSettings : AppCompatActivity() {
     }
 
     private fun uploadProfileImage() {
-        val progressDialog=ProgressDialog(this)
-        progressDialog.setTitle("Profile Settings")
-        progressDialog.setMessage("updating...")
-        progressDialog.show()
 
         when {
             imageUri == null -> Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT)
@@ -93,6 +89,11 @@ class AccountSettings : AppCompatActivity() {
                 Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
             }
             else -> {
+                val progressDialog=ProgressDialog(this)
+                progressDialog.setTitle("Profile Settings")
+                progressDialog.setMessage("updating...")
+                progressDialog.show()
+
                 val fileRef = storageProfileRef!!.child(firebaseUser.uid + ".jpg")
 
                 val uploadTask: StorageTask<*>
@@ -122,11 +123,11 @@ class AccountSettings : AppCompatActivity() {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                         finish()
+                        progressDialog.dismiss()
 
                     }
                     else
                         progressDialog.dismiss()
-
                 } }
             }
         }
