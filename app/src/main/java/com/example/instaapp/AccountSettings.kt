@@ -100,7 +100,10 @@ class AccountSettings : AppCompatActivity() {
                 uploadTask = fileRef.putFile(imageUri!!)
 
                 uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if(!task.isSuccessful) task.exception?.let { throw it }
+                    if(!task.isSuccessful) task.exception?.let {
+                        throw it
+                        progressDialog.dismiss()
+                    }
 
                     return@Continuation fileRef.downloadUrl
                 }).addOnCompleteListener { OnCompleteListener<Uri>{task ->
