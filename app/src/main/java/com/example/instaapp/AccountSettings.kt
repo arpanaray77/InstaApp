@@ -12,9 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.instaapp.Model.User
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_settings.*
@@ -28,12 +34,14 @@ class AccountSettings : AppCompatActivity() {
     private var checker:String?= null
     private  var myUrl=""
     private  var imageUri: Uri?=null
+    private  var storageProfileRef:StorageReference?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_settings)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        storageProfileRef= FirebaseStorage.getInstance().reference.child("Profile Picture")
         getUserInfo()
 
         accountSettings_logoutbtn.setOnClickListener {
@@ -69,18 +77,26 @@ class AccountSettings : AppCompatActivity() {
 
     private fun uploadProfileImage() {
         when {
+            imageUri == null -> Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT)
+                .show()
+
             TextUtils.isEmpty(accountSettings_fullname_profile.text.toString()) -> {
                 Toast.makeText(this, "Full Name is required", Toast.LENGTH_SHORT).show()
             }
             TextUtils.isEmpty(accountSettings_username_profile.text.toString()) -> {
                 Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
             }
+            else -> {
+                val fileRef = storageProfileRef!!.child(firebaseUser.uid + ".jpg")
 
-            TextUtils.isEmpty(accountSettings_username_profile.text.toString()) -> {
-                Toast.makeText(this, "username is required", Toast.LENGTH_SHORT).show()
+                val uploadTask: StorageTask<*>
+                uploadTask = fileRef.putFile(imageUri!!)
+
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                })
+
             }
         }
-
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
