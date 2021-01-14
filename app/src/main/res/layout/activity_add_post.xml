@@ -65,17 +65,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="5dp"
         android:layout_below="@id/app_bar_layout_addPost">
 
     <ImageView
         android:id="@+id/picture_to_be_posted"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:scaleType="fitCenter"
-
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_image_icon"
         />
 
+        <EditText
+            android:id="@+id/write_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:maxLines="6"
+            android:hint="Write a Caption"
 
+            />
 
     </LinearLayout>
 
