@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_profile.view.*
 class AccountSettings : AppCompatActivity() {
 
     private lateinit var firebaseUser: FirebaseUser
-    private var checker:String?= null
+    private var checker=""
     private  var myUrl=""
     private  var imageUri: Uri?=null
     private  var storageProfileRef:StorageReference?=null
@@ -100,13 +100,15 @@ class AccountSettings : AppCompatActivity() {
                 uploadTask = fileRef.putFile(imageUri!!)
 
                 uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if(!task.isSuccessful) task.exception?.let {
-                        throw it
-                        progressDialog.dismiss()
+                    if (!task.isSuccessful)
+                    {
+                        task.exception?.let {
+                            throw it
+                            progressDialog.dismiss()
+                        }
                     }
-
                     return@Continuation fileRef.downloadUrl
-                }).addOnCompleteListener { OnCompleteListener<Uri>{task ->
+                }).addOnCompleteListener ( OnCompleteListener<Uri>{task ->
                     if(!task.isSuccessful)
                     {
                         val downloadUrl=task.result
@@ -129,9 +131,10 @@ class AccountSettings : AppCompatActivity() {
                         progressDialog.dismiss()
 
                     }
-                    else
+                    else {
                         progressDialog.dismiss()
-                } }
+                    }
+                } )
             }
         }
     }
