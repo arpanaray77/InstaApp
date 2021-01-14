@@ -11,6 +11,8 @@ import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
@@ -21,28 +23,28 @@ import kotlinx.android.synthetic.main.activity_add_post.*
 
 class AddPostActivity : AppCompatActivity() {
 
-    private var myUrl = ""
-    private var imageUri: Uri? = null
-    private var storagePostPictureRef: StorageReference? = null
+    private  var myUrl=""
+    private  var imageUri: Uri?=null
+    private  var storagePostPictureRef: StorageReference?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
 
-        storagePostPictureRef = FirebaseStorage.getInstance().reference.child("Post Picture")
+        storagePostPictureRef= FirebaseStorage.getInstance().reference.child("Post Picture")
 
         post_picture.setOnClickListener {
             uploadImage()
         }
         CropImage.activity()
-            .setAspectRatio(1, 1)
+            .setAspectRatio(1,1)
             .start(this@AddPostActivity)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+        if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null) {
             val result = CropImage.getActivityResult(data)
             imageUri = result.uri
             profile_image_profile.setImageURI(imageUri)
@@ -51,17 +53,10 @@ class AddPostActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
-        when {
-            imageUri == null -> Toast.makeText(
-                this,
-                "Please select image first.",
-                Toast.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(write_post.text.toString()) -> Toast.makeText(
-                this,
-                "Please write caption",
-                Toast.LENGTH_LONG
-            ).show()
+        when
+        {
+            imageUri == null -> Toast.makeText(this, "Please select image first.", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(write_post.text.toString()) -> Toast.makeText(this, "Please write caption", Toast.LENGTH_LONG).show()
 
             else -> {
                 val progressDialog = ProgressDialog(this)
@@ -69,22 +64,50 @@ class AddPostActivity : AppCompatActivity() {
                 progressDialog.setMessage("Please wait, we are posting..")
                 progressDialog.show()
 
-                val fileRef =
-                    storagePostPictureRef!!.child(System.currentTimeMillis().toString() + ".jpg")
+                val fileRef = storagePostPictureRef!!.child(System.currentTimeMillis().toString()+ ".jpg")
 
                 var uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
 
-                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if (!task.isSuccessful) {
+                uploadTask.continueWithTask(Continuation <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
+                    if (!task.isSuccessful)
+                    {
                         task.exception?.let {
                             throw it
                             progressDialog.dismiss()
                         }
                     }
                     return@Continuation fileRef.downloadUrl
+                }).addOnCompleteListener (OnCompleteListener<Uri> { task ->
+                    if (task.isSuccessful)
+                    {
+                        val downloadUrl = task.result
+                        myUrl = downloadUrl.toString()
+
+                        val ref = FirebaseDatabase.getInstance().reference.child("Posts")
+                        val postid=ref.push().key
+
+                        val postMap = HashMap<String, Any>()
+                        postMap["postid"] = postid!!
+                        postMap["caption"] = write_post.text.toString().toLowerCase()
+                        postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
+                        postMap["postimage"] = myUrl
+
+                        ref.child(postid).updateChildren(postMap)
+
+                        Toast.makeText(this, "Uploaded successfully.", Toast.LENGTH_LONG).show()
+
+                        val intent = Intent(this@AddPostActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        progressDialog.dismiss()
+                    }
+                    else
+                    {
+                        progressDialog.dismiss()
+                    }
                 })
             }
         }
     }
-}
+ }
