@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_addpost -> {
+                item.isChecked=false
                 startActivity(Intent(this@MainActivity,AddPostActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }
