@@ -47,7 +47,7 @@ class AddPostActivity : AppCompatActivity() {
         if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null) {
             val result = CropImage.getActivityResult(data)
             imageUri = result.uri
-            profile_image_profile.setImageURI(imageUri)
+            post_picture.setImageURI(imageUri)
         }
 
     }
