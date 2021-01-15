@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_settings.*
 import kotlinx.android.synthetic.main.activity_account_settings.view.*
+import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
@@ -138,15 +139,18 @@ class AccountSettings : AppCompatActivity() {
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
-            imageUri = result.uri
-            profile_image_profile.setImageURI(imageUri)
+            if (resultCode == Activity.RESULT_OK) {
+                imageUri= result.uri
+                accountSettings_image_profile.setImageURI(imageUri)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+            }
         }
-
     }
 
     private fun updateUserInfoOnly() {
@@ -189,7 +193,7 @@ class AccountSettings : AppCompatActivity() {
 
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_profile)
+                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(accountSettings_image_profile)
                     accountSettings_fullname_profile?.setText(user.getFullname())
                     accountSettings_username_profile?.setText(user.getUsername())
                     accountSettings_bio_profile?.setText(user.getBio())
