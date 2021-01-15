@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,7 +68,7 @@ class AccountSettings : AppCompatActivity() {
         save_edited_info.setOnClickListener {
             if (checker == "clicked")
             {
-              uploadProfileImage()
+              uploadProfileImageandInfo()
             }
             else
             {
@@ -77,7 +78,7 @@ class AccountSettings : AppCompatActivity() {
         }
     }
 
-    private fun uploadProfileImage() {
+    private fun uploadProfileImageandInfo() {
 
         when {
             imageUri == null -> Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT)
@@ -105,12 +106,13 @@ class AccountSettings : AppCompatActivity() {
                     {
                         task.exception?.let {
                             throw it
+                            Toast.makeText(this, "exception:--"+it, Toast.LENGTH_SHORT).show()
                             progressDialog.dismiss()
                         }
                     }
                     return@Continuation fileRef.downloadUrl
                 }).addOnCompleteListener ( OnCompleteListener<Uri>{task ->
-                    if(!task.isSuccessful)
+                    if(task.isSuccessful)
                     {
                         val downloadUrl=task.result
                         myUrl=downloadUrl.toString()
