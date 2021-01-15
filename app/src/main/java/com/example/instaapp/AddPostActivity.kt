@@ -42,24 +42,13 @@ class AddPostActivity : AppCompatActivity() {
             .start(this@AddPostActivity)
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if(resultCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode== Activity.RESULT_OK && data!=null) {
-//            val result = CropImage.getActivityResult(data)
-//            imageUri = result.uri
-//            post_picture.setImageURI(imageUri)
-//        }
-//
-//    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
                 imageUri= result.uri
-                post_picture.setImageURI(imageUri)
+                picture_to_be_posted.setImageURI(imageUri)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
             }
