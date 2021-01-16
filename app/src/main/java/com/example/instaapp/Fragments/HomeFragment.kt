@@ -90,12 +90,13 @@ class HomeFragment : Fragment() {
                  {
                      val post = snapshot.getValue(Post::class.java)
 
-                     for (id in followingList!!)
+                     for (id in (followingList as ArrayList<String>))
                      {
-                         if(post!!.getPublisher()==id.toString())
+                         if(post!!.getPublisher()==id)
                          {
                              postList!!.add(post)
                          }
+                         postAdapter!!.notifyDataSetChanged()
                      }
                  }
              }
