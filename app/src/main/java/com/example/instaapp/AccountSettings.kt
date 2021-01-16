@@ -195,6 +195,7 @@ class AccountSettings : AppCompatActivity() {
 
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
+
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(accountSettings_image_profile)
                     accountSettings_fullname_profile?.setText(user.getFullname())
                     accountSettings_username_profile?.setText(user.getUsername())

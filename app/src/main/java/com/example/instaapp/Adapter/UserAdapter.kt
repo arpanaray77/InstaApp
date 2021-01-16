@@ -133,8 +133,7 @@ class UserAdapter (private var mContext:Context,
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
-        }
-
+             }
 
         followingRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -144,13 +143,11 @@ class UserAdapter (private var mContext:Context,
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 if (datasnapshot.child(uid).exists()) {
                     followButton.text = "Following"
-                } else {
+                }
+                else {
                     followButton.text = "Follow"
                 }
             }
-
-
         })
     }
-
 }

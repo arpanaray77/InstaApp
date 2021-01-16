@@ -83,6 +83,13 @@ class SignUpActivity : AppCompatActivity() {
                 if(task.isSuccessful)
                 {
                     Toast.makeText(this,"Account has been created",Toast.LENGTH_SHORT).show()
+
+                    //to follow own account by default
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(currentUserId)
+                        .child("Following").child(currentUserId)
+                        .setValue(true)
+
                     //forwarding to home page
                     val intent=Intent(this@SignUpActivity,MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
