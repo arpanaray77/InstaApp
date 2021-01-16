@@ -15,4 +15,39 @@ class Posts {
         this.caption = caption
     }
 
+    //getters
+    fun getPostId():String{
+        return postid
+    }
+
+    fun getPostImage():String{
+        return postimage
+    }
+    fun getPublisher():String{
+        return publisher
+    }
+    fun getCaption():String{
+        return caption
+    }
+
+    //setters
+    fun setPostId(postid: String)
+    {
+        this.postid=postid
+    }
+
+    fun setPostImage(postimage: String)
+    {
+        this.postimage=postimage
+    }
+
+    fun setPublisher(publisher: String)
+    {
+        this.publisher=publisher
+    }
+
+    fun setCaption(caption: String)
+    {
+        this.caption=caption
+    }
 }
