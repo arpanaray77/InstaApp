@@ -172,6 +172,7 @@ class ProfileFragment: Fragment() {
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view.profile_image_profile)
+                    view.profile_toolbar_username?.text=user.getUsername()
                     view.fullname_in_profile?.text= user.getFullname()
                     view.username_in_profile?.text= user.getUsername()
                     view.bio_profile?.text= user.getBio()
