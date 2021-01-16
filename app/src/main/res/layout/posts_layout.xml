@@ -25,29 +25,27 @@
                 android:id="@+id/user_profile_image_search"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/profile"
-                android:padding="5dp"/>
+                android:padding="5dp"
+                android:src="@drawable/profile" />
 
             <TextView
                 android:id="@+id/user_name_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="user name"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="14dp"
+                android:text="user name"
                 android:textColor="@color/colorPrimaryDark"
-                />
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/post_image_home"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:src="@drawable/profile"
             android:scaleType="centerCrop"
-            />
+            android:src="@drawable/profile" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -59,31 +57,27 @@
                 android:id="@+id/post_image_like_btn"
                 android:layout_width="41dp"
                 android:layout_height="40dp"
-                android:src="@drawable/heart_not_clicked"
-                />
+                android:src="@drawable/heart_not_clicked" />
 
             <ImageView
                 android:id="@+id/post_image_comment_btn"
                 android:layout_width="40dp"
                 android:layout_height="34dp"
-                android:src="@drawable/comment"
-                android:layout_toEndOf="@+id/post_image_like_btn"
-                android:layout_marginTop="3dp"
                 android:layout_marginStart="6dp"
-                />
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@+id/post_image_like_btn"
+                android:src="@drawable/comment" />
 
             <ImageView
                 android:id="@+id/post_save_comment_btn"
                 android:layout_width="40dp"
                 android:layout_height="39dp"
-                android:src="@drawable/save_unfilled_large_icon"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="0dp"
                 android:layout_marginRight="3dp"
-                />
+                android:src="@drawable/save_unfilled_large_icon" />
 
         </RelativeLayout>
-
 
 
         <TextView
@@ -91,29 +85,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            android:textSize="15dp"
             android:textColor="@color/colorPrimaryDark"
-            />
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/publisher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            android:textSize="15dp"
             android:textColor="@color/colorPrimaryDark"
-            />
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textSize="15dp"
             android:textColor="@color/colorPrimary"
-            />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/comments"
@@ -121,11 +112,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:textSize="16dp"
             android:layout_marginBottom="5dp"
             android:text=""
             android:textColor="@color/colorPrimary"
-            />
+            android:textSize="16dp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

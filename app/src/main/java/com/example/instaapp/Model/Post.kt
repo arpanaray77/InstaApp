@@ -1,6 +1,6 @@
 package com.example.instaapp.Model
 
-class Posts {
+class Post {
     private var postid:String=""
     private var postimage:String=""
     private var publisher:String=""
