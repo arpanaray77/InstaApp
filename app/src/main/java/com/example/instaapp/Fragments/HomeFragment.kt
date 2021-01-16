@@ -11,8 +11,7 @@ import com.example.instaapp.R
 
 class HomeFragment : Fragment() {
 
-
-    override fun onCreateView(
+     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
