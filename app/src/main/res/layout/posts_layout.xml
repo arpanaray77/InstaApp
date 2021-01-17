@@ -72,8 +72,8 @@
 
             <ImageView
                 android:id="@+id/post_save_comment_btn"
-                android:layout_width="38dp"
-                android:layout_height="39dp"
+                android:layout_width="35dp"
+                android:layout_height="38dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="0dp"
                 android:layout_marginRight="3dp"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textColor="@android:color/black"
-            android:text="1 likes"
+            android:text=""
             android:textSize="12sp"
             android:textStyle="bold" />
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
@@ -44,7 +45,23 @@ class PostAdapter
         Picasso.get().load(post.getPostImage()).into(holder.postImage)
         holder.caption.text=post.getCaption()
         publisherInfo(holder.profileImage,holder.username,holder.publisher,post.getPublisher())
+        isLiked(post.getPostId(),holder.likeButton)
+        getCountofLikes(post.getPostId(),holder.likes)
 
+        holder.likeButton.setOnClickListener{
+            if (holder.likeButton.tag.toString()=="like")
+            {
+                FirebaseDatabase.getInstance().reference.child("Likes").child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .setValue(true)
+            }
+            else
+            {
+                FirebaseDatabase.getInstance().reference.child("Likes").child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .removeValue()
+            }
+        }
     }
 
     inner class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -76,6 +93,45 @@ class PostAdapter
         }
 
     }
+
+    private fun isLiked(postid:String,imageView: ImageView) {
+
+        firebaseUser=FirebaseAuth.getInstance().currentUser
+        val postRef=FirebaseDatabase.getInstance().reference.child("Likes").child(postid)
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                if (datasnapshot.child(firebaseUser!!.uid).exists()) {
+                    imageView.setImageResource(R.drawable.heart_clicked)
+                    imageView.tag = "liked"
+                }
+                else {
+                    imageView.setImageResource(R.drawable.heart_not_clicked)
+                    imageView.tag = "like"
+                }
+            }
+        })
+    }
+
+    private fun getCountofLikes(postid:String,likesNo: TextView) {
+
+        val postRef=FirebaseDatabase.getInstance().reference.child("Likes").child(postid)
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                likesNo.text = datasnapshot.childrenCount.toString()+" likes"
+            }
+        })
+    }
+
     private fun publisherInfo(profileImage: CircleImageView, username: TextView, publisher: TextView, publisherID: String) {
 
         val userRef=FirebaseDatabase.getInstance().reference.child("Users").child(publisherID)
