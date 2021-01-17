@@ -85,18 +85,17 @@ class HomeFragment : Fragment() {
 
              override fun onDataChange(p0: DataSnapshot)
              {
-                 postList?.clear()
-                 for (snapshot in p0.children)
-                 {
-                     val post = snapshot.getValue(Post::class.java)
+                 if(p0.exists()) {
+                     postList?.clear()
+                     for (snapshot in p0.children) {
+                         val post = snapshot.getValue(Post::class.java)
 
-                     for (id in (followingList as ArrayList<String>))
-                     {
-                         if(post!!.getPublisher()==id)
-                         {
-                             postList!!.add(post)
+                         for (id in (followingList as ArrayList<String>)) {
+                             if (post!!.getPublisher() == id) {
+                                 postList!!.add(post)
+                             }
+                             postAdapter!!.notifyDataSetChanged()
                          }
-                         postAdapter!!.notifyDataSetChanged()
                      }
                  }
              }
