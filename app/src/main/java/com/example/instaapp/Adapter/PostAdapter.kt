@@ -45,8 +45,21 @@ class PostAdapter
         Picasso.get().load(post.getPostImage()).into(holder.postImage)
         holder.caption.text=post.getCaption()
         publisherInfo(holder.profileImage,holder.username,holder.publisher,post.getPublisher())
-        isLiked(post.getPostId(),holder.likeButton)
+        isLiked(post.getPostId(),holder.likeButton,holder.postImage)
         getCountofLikes(post.getPostId(),holder.likes)
+
+
+        holder.postImage.setOnClickListener {
+            if (holder.postImage.tag.toString() == "like") {
+                FirebaseDatabase.getInstance().reference.child("Likes").child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .setValue(true)
+            } else {
+                FirebaseDatabase.getInstance().reference.child("Likes").child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .removeValue()
+            }
+        }
 
         holder.likeButton.setOnClickListener{
             if (holder.likeButton.tag.toString()=="like")
@@ -94,7 +107,7 @@ class PostAdapter
 
     }
 
-    private fun isLiked(postid:String,imageView: ImageView) {
+    private fun isLiked(postid:String,imageView: ImageView,postedImg:ImageView) {
 
         firebaseUser=FirebaseAuth.getInstance().currentUser
         val postRef=FirebaseDatabase.getInstance().reference.child("Likes").child(postid)
@@ -107,10 +120,12 @@ class PostAdapter
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 if (datasnapshot.child(firebaseUser!!.uid).exists()) {
                     imageView.setImageResource(R.drawable.heart_clicked)
+                    postedImg.tag =" liked"
                     imageView.tag = "liked"
                 }
                 else {
                     imageView.setImageResource(R.drawable.heart_not_clicked)
+                    postedImg.tag = "like"
                     imageView.tag = "like"
                 }
             }
