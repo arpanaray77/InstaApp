@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Model.Post
 import com.example.instaapp.Model.User
@@ -20,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_account_settings.*
+
 
 class PostAdapter
     (private val mContext:Context,private  val mPost:List<Post>):RecyclerView.Adapter<PostAdapter.ViewHolder>()
@@ -43,6 +42,7 @@ class PostAdapter
         val post=mPost[position]
 
         Picasso.get().load(post.getPostImage()).into(holder.postImage)
+        holder.caption.text=post.getCaption()
         publisherInfo(holder.profileImage,holder.username,holder.publisher,post.getPublisher())
 
     }
@@ -92,7 +92,8 @@ class PostAdapter
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profileImage)
                     username.text =(user.getUsername())
-                    publisher.text =(user.getFullname())
+                    publisher.text =(user.getUsername())
+
 
                 }
             }
