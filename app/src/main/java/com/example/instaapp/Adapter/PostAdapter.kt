@@ -62,14 +62,14 @@ class PostAdapter
 
 
         init {
-            profileImage=itemView.findViewById(R.id.user_profile_image_post)
+            profileImage=itemView.findViewById(R.id.publisher_profile_image_post)
             postImage=itemView.findViewById(R.id.post_image_home)
             likeButton=itemView.findViewById(R.id.post_image_like_btn)
             saveButton=itemView.findViewById(R.id.post_save_comment_btn)
             commentButton=itemView.findViewById(R.id.post_image_comment_btn)
             likes=itemView.findViewById(R.id.likes)
             comments=itemView.findViewById(R.id.comments)
-            username=itemView.findViewById(R.id.user_name_post)
+            username=itemView.findViewById(R.id.publisher_user_name_post)
             publisher=itemView.findViewById(R.id.publisher)
             caption=itemView.findViewById(R.id.caption)
 
