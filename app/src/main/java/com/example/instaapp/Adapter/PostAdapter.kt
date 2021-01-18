@@ -1,6 +1,8 @@
 package com.example.instaapp.Adapter
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +10,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.instaapp.AddCommentActivity
+import com.example.instaapp.MainActivity
 import com.example.instaapp.Model.Post
 import com.example.instaapp.Model.User
 import com.example.instaapp.R
@@ -41,13 +46,15 @@ class PostAdapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         firebaseUser= FirebaseAuth.getInstance().currentUser
         val post=mPost[position]
+        val postid=post.getPostId()
 
         Picasso.get().load(post.getPostImage()).into(holder.postImage)
         holder.caption.text=post.getCaption()
+
         publisherInfo(holder.profileImage,holder.username,holder.publisher,post.getPublisher())
         isLiked(post.getPostId(),holder.likeButton,holder.postImage)
         getCountofLikes(post.getPostId(),holder.likes)
-
+        getComments(post.getPostId(),holder.comments)
 
         holder.postImage.setOnClickListener {
             if (holder.postImage.tag.toString() == "like") {
@@ -59,6 +66,7 @@ class PostAdapter
                     .child(firebaseUser!!.uid)
                     .removeValue()
             }
+
         }
 
         holder.likeButton.setOnClickListener{
@@ -74,6 +82,14 @@ class PostAdapter
                     .child(firebaseUser!!.uid)
                     .removeValue()
             }
+        }
+
+        holder.comments.setOnClickListener {
+
+            val intent = Intent(mContext,AddCommentActivity::class.java).apply {
+                putExtra("POST_ID",postid)
+            }
+            mContext.startActivity(intent)
         }
     }
 
@@ -106,6 +122,21 @@ class PostAdapter
         }
 
     }
+
+    private fun getComments(postid:String, comment:TextView) {
+
+        val commentRef=FirebaseDatabase.getInstance().reference.child("Comments").child(postid)
+
+        commentRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                comment.text = "View all "+datasnapshot.childrenCount.toString()+" comments"
+            }
+        })
+    }
+
 
     private fun isLiked(postid:String,imageView: ImageView,postedImg:ImageView) {
 
