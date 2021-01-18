@@ -165,7 +165,6 @@ class PostAdapter
                     username.text =(user.getUsername())
                     publisher.text =(user.getUsername())
 
-
                 }
             }
 
