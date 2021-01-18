@@ -98,7 +98,7 @@ class AddPostActivity : AppCompatActivity() {
 
                         ref.child(postid).updateChildren(postMap)
 
-                        Toast.makeText(this, "Uploaded successfully.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Uploaded successfully", Toast.LENGTH_LONG).show()
 
                         val intent = Intent(this@AddPostActivity, MainActivity::class.java)
                         startActivity(intent)
