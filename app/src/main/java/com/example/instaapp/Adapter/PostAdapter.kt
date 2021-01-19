@@ -58,6 +58,30 @@ class PostAdapter
         getCountofLikes(post.getPostId(),holder.likes)
         getComments(post.getPostId(),holder.comments)
 
+        holder.publisher.setOnClickListener {
+
+            val intent = Intent(mContext, MainActivity::class.java).apply {
+                putExtra("PUBLISHER_ID", post.getPublisher())
+            }
+            mContext.startActivity(intent)
+        }
+
+        holder.profileImage.setOnClickListener {
+
+            val intent = Intent(mContext, MainActivity::class.java).apply {
+                putExtra("PUBLISHER_ID", post.getPublisher())
+            }
+            mContext.startActivity(intent)
+        }
+
+        holder.username.setOnClickListener {
+
+            val intent = Intent(mContext, MainActivity::class.java).apply {
+                putExtra("PUBLISHER_ID", post.getPublisher())
+            }
+            mContext.startActivity(intent)
+        }
+
         holder.postImage.setOnClickListener {
             if (holder.postImage.tag.toString() == "like") {
                 FirebaseDatabase.getInstance().reference.child("Likes").child(post.getPostId())
