@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -50,9 +51,10 @@ class PostAdapter
 
         Picasso.get().load(post.getPostImage()).into(holder.postImage)
         holder.caption.text=post.getCaption()
-
         publisherInfo(holder.profileImage,holder.username,holder.publisher,post.getPublisher())
+
         isLiked(post.getPostId(),holder.likeButton,holder.postImage)
+        isSaved(post.getPostId(),holder.saveButton)
         getCountofLikes(post.getPostId(),holder.likes)
         getComments(post.getPostId(),holder.comments)
 
@@ -90,6 +92,30 @@ class PostAdapter
                 putExtra("POST_ID",postid)
             }
             mContext.startActivity(intent)
+        }
+
+        holder.commentButton.setOnClickListener {
+
+            val intent = Intent(mContext,AddCommentActivity::class.java).apply {
+                putExtra("POST_ID",postid)
+            }
+            mContext.startActivity(intent)
+        }
+
+        holder.saveButton.setOnClickListener{
+            if (holder.saveButton.tag.toString()=="save")
+            {
+                FirebaseDatabase.getInstance().reference.child("Saves").child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .setValue(true)
+                Toast.makeText(mContext, " Post is Saved ", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                FirebaseDatabase.getInstance().reference.child("Saves").child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .removeValue()
+            }
         }
     }
 
@@ -174,6 +200,29 @@ class PostAdapter
 
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 likesNo.text = datasnapshot.childrenCount.toString()+" likes"
+            }
+        })
+    }
+
+    private fun isSaved(postid:String,imageView: ImageView) {
+
+        firebaseUser=FirebaseAuth.getInstance().currentUser
+        val postRef=FirebaseDatabase.getInstance().reference.child("Saves").child(postid)
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                if (datasnapshot.child(firebaseUser!!.uid).exists()) {
+                    imageView.setImageResource(R.drawable.saved_post_filled)
+                    imageView.tag = "saved"
+                }
+                else {
+                    imageView.setImageResource(R.drawable.save_post_unfilled)
+                    imageView.tag = "save"
+                }
             }
         })
     }
