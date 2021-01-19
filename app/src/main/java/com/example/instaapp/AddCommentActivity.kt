@@ -44,8 +44,6 @@ class AddCommentActivity : AppCompatActivity() {
         recyclerView=findViewById(R.id.recyclerview_comments)
         recyclerView.setHasFixedSize(true)
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-        linearLayoutManager.reverseLayout=true
-        linearLayoutManager.stackFromEnd=true
         recyclerView.layoutManager=linearLayoutManager
 
         commentList=ArrayList()

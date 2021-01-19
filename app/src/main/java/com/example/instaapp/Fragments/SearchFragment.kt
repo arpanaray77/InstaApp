@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
 
-     private var recyclerView:RecyclerView?=null
+    private var recyclerView:RecyclerView?=null
     private var userAdapter:UserAdapter?=null
     private var mUser:MutableList<User>?=null
 
@@ -38,26 +38,26 @@ class SearchFragment : Fragment() {
         //to show a user on search
         userAdapter = context?.let {
             UserAdapter(it, mUser as ArrayList<User>, true)}
-            recyclerView?.adapter = userAdapter
-            view.searchitem.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-                }
+        recyclerView?.adapter = userAdapter
+        view.searchitem.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
 
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
 
-                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (view.searchitem.text.toString() == "") {
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (view.searchitem.text.toString() == "") {
 
-                    }
-                    else
-                    {
-                       recyclerView?.visibility=View.VISIBLE
-                        retrieveUser()
-                        searchUser(s.toString().toLowerCase())
-                    }
                 }
-            })
+                else
+                {
+                    recyclerView?.visibility=View.VISIBLE
+                    retrieveUser()
+                    searchUser(s.toString().toLowerCase())
+                }
+            }
+        })
         return view
     }
 
@@ -77,16 +77,16 @@ class SearchFragment : Fragment() {
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 mUser?.clear()
 
-                    for(snapshot in datasnapshot.children)
+                for(snapshot in datasnapshot.children)
+                {
+                    //searching all users
+                    val user=snapshot.getValue(User::class.java)
+                    if(user!=null)
                     {
-                        //searching all users
-                        val user=snapshot.getValue(User::class.java)
-                        if(user!=null)
-                        {
-                            mUser?.add(user)
-                        }
+                        mUser?.add(user)
                     }
-                    userAdapter?.notifyDataSetChanged()
+                }
+                userAdapter?.notifyDataSetChanged()
             }
         })
     }
@@ -97,7 +97,7 @@ class SearchFragment : Fragment() {
         usersSearchRef.addValueEventListener(object:ValueEventListener
         {
             override fun onCancelled(error: DatabaseError) {
-            Toast.makeText(context,"Could not read from Database",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"Could not read from Database",Toast.LENGTH_LONG).show()
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -120,5 +120,5 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-   }
+    }
 }

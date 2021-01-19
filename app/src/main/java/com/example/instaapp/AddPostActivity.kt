@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import kotlinx.android.synthetic.main.activity_add_comment.*
 import kotlinx.android.synthetic.main.activity_add_post.*
 
 class AddPostActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class AddPostActivity : AppCompatActivity() {
         storagePostPictureRef= FirebaseStorage.getInstance().reference.child("Post Picture")
 
         post_picture.setOnClickListener {
-            uploadImage()
+            uploadPost()
         }
 
         picture_to_be_posted.setOnClickListener {
@@ -63,7 +64,7 @@ class AddPostActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage() {
+    private fun uploadPost() {
         when
         {
             imageUri == null -> Toast.makeText(this, "Please select image first.", Toast.LENGTH_LONG).show()
@@ -105,6 +106,14 @@ class AddPostActivity : AppCompatActivity() {
                         postMap["postimage"] = myUrl
 
                         ref.child(postid).updateChildren(postMap)
+
+                        //to add Caption to Comment
+                        val commentRef=FirebaseDatabase.getInstance().reference.child("Comment").child(postid)
+                        val commentMap = HashMap<String, Any>()
+                        commentMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
+                        commentMap["comment"] =  write_post.text.toString()
+
+                        commentRef.push().setValue(commentMap) //
 
                         Toast.makeText(this, "Uploaded successfully", Toast.LENGTH_LONG).show()
 
