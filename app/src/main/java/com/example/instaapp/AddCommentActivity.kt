@@ -1,11 +1,18 @@
 package com.example.instaapp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.instaapp.Adapter.CommentAdapter
+import com.example.instaapp.Adapter.PostAdapter
+import com.example.instaapp.Model.Comment
+import com.example.instaapp.Model.Post
 import com.example.instaapp.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,6 +24,9 @@ import kotlinx.android.synthetic.main.activity_add_post.*
 class AddCommentActivity : AppCompatActivity() {
 
     private var firebaseUser: FirebaseUser?=null
+    private var commentAdapter:CommentAdapter?=null
+    private var commentList:MutableList<Comment>?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,15 +40,27 @@ class AddCommentActivity : AppCompatActivity() {
             finish()
         })
 
+        var recyclerView:RecyclerView?=null
+        recyclerView=findViewById(R.id.recyclerview_comments)
+        recyclerView.setHasFixedSize(true)
+        val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.reverseLayout=true
+        linearLayoutManager.stackFromEnd=true
+        recyclerView.layoutManager=linearLayoutManager
+
+        commentList=ArrayList()
+        commentAdapter= this.let { CommentAdapter(it,commentList as ArrayList<Comment>) }
+        recyclerView.adapter=commentAdapter
+
+
         firebaseUser= FirebaseAuth.getInstance().currentUser
 
          val add_comment=findViewById<EditText>(R.id.add_comment)
-         val post=findViewById<TextView>(R.id.post_comment)
+         val post_comment=findViewById<TextView>(R.id.post_comment)
+         val postid = intent.getStringExtra("POST_ID")
 
-        val postid = intent.getStringExtra("POST_ID")
 
-
-        post.setOnClickListener {
+        post_comment.setOnClickListener {
             if(add_comment.text.toString().equals(""))
             {
               Toast.makeText(this,"You can't send an empty comment",Toast.LENGTH_SHORT).show()
@@ -49,15 +71,16 @@ class AddCommentActivity : AppCompatActivity() {
             }
         }
         getImage()
+        readComments(postid!!)
     }
 
     private fun postComment(postid:String) {
 
-        val commentRef : DatabaseReference = FirebaseDatabase.getInstance().reference.child("Comments").child(postid)
+        val commentRef : DatabaseReference = FirebaseDatabase.getInstance().reference.child("Comment").child(postid)
 
         val commentMap = HashMap<String, Any>()
-        commentMap["comment"] = add_comment.text.toString()
         commentMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
+        commentMap["comment"] = add_comment.text.toString()
 
         commentRef.push().setValue(commentMap)
         add_comment.setText("")
@@ -80,6 +103,25 @@ class AddCommentActivity : AppCompatActivity() {
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(user_profile_image)
                 }
             }
+        })
+    }
+    private fun readComments(postid: String) {
+        val ref: DatabaseReference =
+            FirebaseDatabase.getInstance().reference.child("Comment").child(postid)
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+
+                    commentList?.clear()
+                    for (snapshot in p0.children) {
+                        val cmnt: Comment? = snapshot.getValue(Comment::class.java)
+                        commentList!!.add(cmnt!!)
+                    }
+                        commentAdapter!!.notifyDataSetChanged()
+                    }
         })
     }
 }

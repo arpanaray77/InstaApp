@@ -2,20 +2,20 @@ package com.example.instaapp.Model
 
 class Comment {
     private var publisher:String=""
-    private var caption:String=""
+    private var comment:String=""
 
     constructor()
 
-    constructor(publisher: String, caption: String) {
+    constructor(publisher: String, comment: String) {
         this.publisher = publisher
-        this.caption = caption
+        this.comment = comment
     }
 
     fun getPublisher():String{
         return publisher
     }
-    fun getCaption():String{
-        return caption
+    fun getComment():String{
+        return comment
     }
 
     fun setPublisher(publisher: String)
@@ -23,8 +23,8 @@ class Comment {
         this.publisher=publisher
     }
 
-    fun setCaption(caption: String)
+    fun setComment(comment: String)
     {
-        this.caption=caption
+        this.comment=comment
     }
 }

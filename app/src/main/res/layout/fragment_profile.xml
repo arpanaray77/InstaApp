@@ -214,11 +214,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Bio"
+                    android:padding="6dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="2dp"
                     android:textStyle="normal"
-                    android:textSize="10dp"
+                    android:textSize="11dp"
                     android:textColor="@android:color/black"
                     />
             <com.google.android.material.appbar.AppBarLayout

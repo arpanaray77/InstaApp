@@ -2,6 +2,7 @@ package com.example.instaapp.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.example.instaapp.AddCommentActivity
 import com.example.instaapp.MainActivity
 import com.example.instaapp.Model.Comment
 import com.example.instaapp.Model.User
@@ -31,13 +31,13 @@ class CommentAdapter(private var mContext: Context,
     inner class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
         var profileImage: CircleImageView
         var publisher: TextView
-        var caption: TextView
+        var publisher_comment: TextView
 
 
         init {
             profileImage = itemView.findViewById(R.id.publisher_image_profile)
             publisher = itemView.findViewById(R.id.publisher_username)
-            caption = itemView.findViewById(R.id.publisher_caption)
+            publisher_comment = itemView.findViewById(R.id.publisher_caption)
         }
 
     }
@@ -57,10 +57,21 @@ class CommentAdapter(private var mContext: Context,
         firebaseUser = FirebaseAuth.getInstance().currentUser
         val comment = mComment[position]
 
-        holder.caption.text = comment.getCaption()
-        publisherInfo(holder.profileImage, holder.caption, comment.getPublisher())
+        if(comment.getComment()!="")
+        holder.publisher_comment.text=(comment.getComment())
 
-        holder.caption.setOnClickListener {
+        Log.d("dadgfsfjh",comment.getComment())
+        publisherInfo(holder.profileImage, holder.publisher, comment.getPublisher())
+
+        holder.publisher.setOnClickListener {
+
+                val intent = Intent(mContext, MainActivity::class.java).apply {
+                    putExtra("PUBLISHER_ID", comment.getPublisher())
+                }
+                mContext.startActivity(intent)
+        }
+
+        holder.profileImage.setOnClickListener {
 
             val intent = Intent(mContext, MainActivity::class.java).apply {
                 putExtra("PUBLISHER_ID", comment.getPublisher())

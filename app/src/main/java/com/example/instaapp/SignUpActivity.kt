@@ -71,10 +71,10 @@ class SignUpActivity : AppCompatActivity() {
         //using hashmap to store values
         val userMap=HashMap<String,Any>()
         userMap["uid"]=currentUserId
-        userMap["fullname"]=fullName.toLowerCase()
+        userMap["fullname"]=fullName
         userMap["username"]=userName.toLowerCase()
         userMap["email"]=email
-        userMap["bio"]="Hey I am using InstaApp"
+        userMap["bio"]="Hey! I am using InstaApp"
         userMap["image"]="https://firebasestorage.googleapis.com/v0/b/instaapp-5d470.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=b993b78f-0959-48e8-9901-a4ff11bbe21f"
 
         //pasting data in database

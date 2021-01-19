@@ -151,7 +151,7 @@ class PostAdapter
 
     private fun getComments(postid:String, comment:TextView) {
 
-        val commentRef=FirebaseDatabase.getInstance().reference.child("Comments").child(postid)
+        val commentRef=FirebaseDatabase.getInstance().reference.child("Comment").child(postid)
 
         commentRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {

@@ -36,6 +36,14 @@ class AddPostActivity : AppCompatActivity() {
         post_picture.setOnClickListener {
             uploadImage()
         }
+
+        picture_to_be_posted.setOnClickListener {
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1,1)
+                .start(this@AddPostActivity)
+        }
+
         CropImage.activity()
             .setGuidelines(CropImageView.Guidelines.ON)
             .setAspectRatio(1,1)
@@ -92,7 +100,7 @@ class AddPostActivity : AppCompatActivity() {
 
                         val postMap = HashMap<String, Any>()
                         postMap["postid"] = postid!!
-                        postMap["caption"] = write_post.text.toString().toLowerCase()
+                        postMap["caption"] = write_post.text.toString()
                         postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
                         postMap["postimage"] = myUrl
 

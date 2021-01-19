@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Adapter.UserAdapter
 import com.example.instaapp.Model.User
 import com.example.instaapp.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -62,7 +63,7 @@ class SearchFragment : Fragment() {
 
     private fun searchUser(input:String) {
 
-        val query=FirebaseDatabase.getInstance().getReference()
+        val query=FirebaseDatabase.getInstance().reference
             .child("Users")
             .orderByChild("fullname")
             .startAt(input)
@@ -92,7 +93,7 @@ class SearchFragment : Fragment() {
 
     private fun retrieveUser()
     {
-        val usersSearchRef=FirebaseDatabase.getInstance().getReference().child("Users")//table name:Users
+        val usersSearchRef=FirebaseDatabase.getInstance().reference.child("Users")//table name:Users
         usersSearchRef.addValueEventListener(object:ValueEventListener
         {
             override fun onCancelled(error: DatabaseError) {
@@ -103,12 +104,12 @@ class SearchFragment : Fragment() {
                 mUser?.clear()
                 for (snapShot in dataSnapshot.children) {
                     val user = snapShot.getValue(User::class.java)
-                    val fullName = snapShot.child("fullname").getValue().toString()
-                    val userName = snapShot.child("username").getValue().toString()
-                    val email = snapShot.child("email").getValue().toString()
-                    val bio = snapShot.child("bio").getValue().toString()
-                    val image = snapShot.child("image").getValue().toString()
-                    val uid = snapShot.child("uid").getValue().toString()
+                    val fullName = snapShot.child("fullname").value.toString()
+                    val userName = snapShot.child("username").value.toString()
+                    val email = snapShot.child("email").value.toString()
+                    val bio = snapShot.child("bio").value.toString()
+                    val image = snapShot.child("image").value.toString()
+                    val uid = snapShot.child("uid").value.toString()
 
 
                     User(userName, fullName, bio, image, uid)

@@ -7,10 +7,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import com.example.instaapp.Model.User
 import com.google.android.gms.tasks.Continuation
@@ -26,10 +22,6 @@ import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_settings.*
-import kotlinx.android.synthetic.main.activity_account_settings.view.*
-import kotlinx.android.synthetic.main.activity_add_post.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class AccountSettings : AppCompatActivity() {
 
