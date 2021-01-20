@@ -66,7 +66,7 @@ class SearchFragment : Fragment() {
 
         val query=FirebaseDatabase.getInstance().reference
             .child("Users")
-            .orderByChild("username")
+            .orderByChild("fullname")
             .startAt(input)
             .endAt(input + "\uf8ff")
 

@@ -102,6 +102,7 @@ class ProfileFragment: Fragment() {
         //to get own feeds
         var recyclerView: RecyclerView?=null
         recyclerView=view.findViewById(R.id.recyclerview_profile)
+        recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(context,3)
 
         postList=ArrayList()
