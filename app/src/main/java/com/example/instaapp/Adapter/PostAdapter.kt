@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_add_post.*
 
 
 class PostAdapter
@@ -101,6 +102,7 @@ class PostAdapter
                 FirebaseDatabase.getInstance().reference.child("Likes").child(post.getPostId())
                     .child(firebaseUser!!.uid)
                     .setValue(true)
+                pushNotification(post.getPostId(),post.getPublisher())
             }
             else
             {
@@ -185,6 +187,19 @@ class PostAdapter
                 comment.text = "View all "+datasnapshot.childrenCount.toString()+" comments"
             }
         })
+    }
+
+    private fun pushNotification(postid:String, userid:String) {
+
+        val ref = FirebaseDatabase.getInstance().reference.child("Notification").child(userid)
+
+        val notifyMap = HashMap<String, Any>()
+        notifyMap["userid"] = FirebaseAuth.getInstance().currentUser!!.uid
+        notifyMap["text"] = "liked your post"
+        notifyMap["postid"] = postid
+        notifyMap["ispost"] = true
+
+        ref.push().setValue(notifyMap)
     }
 
 

@@ -96,6 +96,7 @@ class AddPostActivity : AppCompatActivity() {
                         val downloadUrl = task.result
                         myUrl = downloadUrl.toString()
 
+                        //adding post to database
                         val ref = FirebaseDatabase.getInstance().reference.child("Posts")
                         val postid=ref.push().key
 

@@ -20,6 +20,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_comment.*
 import kotlinx.android.synthetic.main.activity_add_post.*
+import kotlinx.android.synthetic.main.posts_layout.*
 
 class AddCommentActivity : AppCompatActivity() {
 
@@ -81,6 +82,7 @@ class AddCommentActivity : AppCompatActivity() {
         commentMap["comment"] = add_comment.text.toString()
 
         commentRef.push().setValue(commentMap)
+        pushNotification(postid)
         add_comment.setText("")
         Toast.makeText(this, "posted!!", Toast.LENGTH_LONG).show()
     }
@@ -103,6 +105,20 @@ class AddCommentActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun pushNotification(postid: String) {
+
+        val ref = FirebaseDatabase.getInstance().reference.child("Notification").child(firebaseUser!!.uid)
+
+        val notifyMap = HashMap<String, Any>()
+        notifyMap["userid"] = FirebaseAuth.getInstance().currentUser!!.uid
+        notifyMap["text"] = "commented :"+add_comment.text.toString()
+        notifyMap["postid"] = postid
+        notifyMap["ispost"] = true
+
+        ref.push().setValue(notifyMap)
+    }
+
     private fun readComments(postid: String) {
         val ref: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Comment").child(postid)

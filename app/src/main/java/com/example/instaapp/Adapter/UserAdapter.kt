@@ -15,6 +15,7 @@ import com.example.instaapp.Fragments.ProfileFragment
 import com.example.instaapp.Fragments.SearchFragment
 import com.example.instaapp.Model.User
 import com.example.instaapp.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -83,7 +84,7 @@ class UserAdapter (private var mContext:Context,
                                         .setValue(true).addOnCompleteListener { task ->
                                             if (task.isSuccessful)
                                             {
-
+                                                pushNotification(user.getUid())
                                             }
                                         }
                                     }
@@ -124,6 +125,19 @@ class UserAdapter (private var mContext:Context,
         var userFullnameTextView:TextView=itemView.findViewById(R.id.user_item_search_fullname)
         var userProfileImage:CircleImageView=itemView.findViewById(R.id.user_item_image)
         var followButton: Button =itemView.findViewById(R.id.user_item_follow)
+    }
+
+    private fun pushNotification(userid:String) {
+
+        val ref = FirebaseDatabase.getInstance().reference.child("Notification").child(userid)
+
+        val notifyMap = HashMap<String, Any>()
+        notifyMap["userid"] = FirebaseAuth.getInstance().currentUser!!.uid
+        notifyMap["text"] = "started following you"
+        notifyMap["postid"] = ""
+        notifyMap["ispost"] = false
+
+        ref.push().setValue(notifyMap)
     }
 
     private fun checkFollowingStatus(uid:String,followButton: Button) {
