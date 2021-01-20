@@ -6,10 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
@@ -59,7 +56,7 @@ class UserAdapter (private var mContext:Context,
 
         //to go to searched user's profile
 
-        holder.userProfileImage.setOnClickListener(object : AndroidViewView.OnClickListener {
+        holder.useritem.setOnClickListener(object : AndroidViewView.OnClickListener {
             override fun onClick(v: AndroidViewView?) {
                 val pref=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit()
                 pref.putString("profileId",user.getUid())
@@ -123,6 +120,7 @@ class UserAdapter (private var mContext:Context,
     class ViewHolder(@NonNull itemView: AndroidViewView): RecyclerView.ViewHolder(itemView)
     {
         var userNameTextView:TextView=itemView.findViewById(R.id.user_item_search_username)
+        var useritem:LinearLayout=itemView.findViewById(R.id.user_item)
         var userFullnameTextView:TextView=itemView.findViewById(R.id.user_item_search_fullname)
         var userProfileImage:CircleImageView=itemView.findViewById(R.id.user_item_image)
         var followButton: Button =itemView.findViewById(R.id.user_item_follow)
