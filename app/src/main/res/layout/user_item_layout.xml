@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/user_item"
-            android:padding="5dp"
+            android:padding="1dp"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
             android:text="Follow"

@@ -39,6 +39,7 @@ class SearchFragment : Fragment() {
         userAdapter = context?.let {
             UserAdapter(it, mUser as ArrayList<User>, true)}
         recyclerView?.adapter = userAdapter
+
         view.searchitem.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -54,7 +55,7 @@ class SearchFragment : Fragment() {
                 {
                     recyclerView?.visibility=View.VISIBLE
                     retrieveUser()
-                    searchUser(s.toString().toLowerCase())
+                    searchUser(s.toString())
                 }
             }
         })
@@ -65,7 +66,7 @@ class SearchFragment : Fragment() {
 
         val query=FirebaseDatabase.getInstance().reference
             .child("Users")
-            .orderByChild("fullname")
+            .orderByChild("username")
             .startAt(input)
             .endAt(input + "\uf8ff")
 

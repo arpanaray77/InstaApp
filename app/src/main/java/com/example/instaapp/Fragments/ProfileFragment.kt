@@ -1,14 +1,18 @@
 package com.example.instaapp.Fragments
 
+import android.R.attr.spacing
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.security.identity.AccessControlProfileId
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.AccountSettings
+import com.example.instaapp.Adapter.MyPostAdapter
+import com.example.instaapp.Model.Post
 import com.example.instaapp.Model.User
 import com.example.instaapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -19,10 +23,16 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class ProfileFragment: Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
+
+    private var myPostAdapter:MyPostAdapter?=null
+    private var postList:MutableList<Post>?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,10 +99,21 @@ class ProfileFragment: Fragment() {
                 }
             }
         }
-        //to show followers and following of a user
+        //to get own feeds
+        var recyclerView: RecyclerView?=null
+        recyclerView=view.findViewById(R.id.recyclerview_profile)
+        recyclerView.layoutManager = GridLayoutManager(context,3)
+
+        postList=ArrayList()
+        myPostAdapter= this.context?.let { MyPostAdapter(it, postList as ArrayList<Post>) }
+        recyclerView.adapter=myPostAdapter
+
+        //to fill in data in profile page
         getFollowers()
         getFollowing()
+        getNoofPosts()
         getUserInfo(view)
+        myPosts()
 
         return view
     }
@@ -156,6 +177,51 @@ class ProfileFragment: Fragment() {
                 if (snapshot.exists()) {
                     view?.total_following?.text = snapshot.childrenCount.toString()
                 }
+            }
+        })
+    }
+
+    private fun getNoofPosts() {
+        val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                var i:Int=0
+                for(snapshot in p0.children)
+                {
+                    val post=snapshot.getValue(Post::class.java)
+                    if(post!!.getPublisher().equals(profileId))
+                    {
+                        i=i+1
+                    }
+                }
+                view?.total_posts?.text = ""+i
+            }
+        })
+    }
+
+    private fun myPosts() {
+        val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                postList?.clear()
+                for(snapshot in p0.children)
+                {
+                    val post=snapshot.getValue(Post::class.java)
+                    if(post!!.getPublisher().equals(profileId))
+                        postList!!.add(post)
+                }
+                Collections.reverse(postList)
+                myPostAdapter!!.notifyDataSetChanged()
             }
         })
     }

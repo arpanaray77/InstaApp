@@ -60,7 +60,6 @@ class CommentAdapter(private var mContext: Context,
         if(comment.getComment()!="")
         holder.publisher_comment.text=(comment.getComment())
 
-        Log.d("dadgfsfjh",comment.getComment())
         publisherInfo(holder.profileImage, holder.publisher, comment.getPublisher())
 
         holder.publisher.setOnClickListener {
