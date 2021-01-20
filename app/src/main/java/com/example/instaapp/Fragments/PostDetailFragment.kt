@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.instaapp.Adapter.MyPostAdapter
 import com.example.instaapp.Adapter.PostAdapter
+import com.example.instaapp.Model.Comment
 import com.example.instaapp.Model.Post
 import com.example.instaapp.R
 import com.google.firebase.database.DataSnapshot
@@ -42,13 +42,13 @@ class PostDetailFragment : Fragment() {
         postAdapter=context?.let { PostAdapter(it,postList as ArrayList<Post>) }
         recyclerView.adapter=postAdapter
 
-        readPosts()
+        readPosts(postid)
 
         return view
     }
 
-    private fun readPosts() {
-        val postRef= FirebaseDatabase.getInstance().reference.child("Posts").child(postid.toString())
+    private fun readPosts(postid: String?) {
+        val postRef= FirebaseDatabase.getInstance().reference.child("Posts").child(postid!!)
 
         postRef.addValueEventListener(object : ValueEventListener
         {
@@ -61,10 +61,8 @@ class PostDetailFragment : Fragment() {
                     postList?.clear()
                     for (snapshot in p0.children)
                     {
-                        val post = snapshot.getValue(Post::class.java)
-                        if (post != null) {
-                            postList!!.add(post)
-                        }
+                        val post:Post?= snapshot.getValue(Post::class.java)
+                        postList!!.add(post!!)
                          postAdapter!!.notifyDataSetChanged()
                     }
                 }
