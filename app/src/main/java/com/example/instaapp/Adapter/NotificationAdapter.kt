@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.instaapp.Fragments.PostDetailFragment
+import com.example.instaapp.Fragments.ProfileFragment
 import com.example.instaapp.Model.Notification
 import com.example.instaapp.Model.Post
 import com.example.instaapp.Model.User
@@ -56,6 +59,26 @@ class NotificationAdapter(private var mContext: Context,
             holder.postimg.visibility=View.INVISIBLE
         }
 
+        holder.postimg.setOnClickListener {
+            if(notification.getIsPost()) {
+                val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                pref.putString("postid", notification.getPostId())
+                pref.apply()
+
+                (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, PostDetailFragment()).commit()
+            }
+            else
+            {
+
+                val pref=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit()
+                pref.putString("profileid",notification.getUserId())
+                pref.apply()
+
+                (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, ProfileFragment()).commit()
+            }
+        }
     }
 
     private fun publisherInfo(imgView: CircleImageView, username: TextView, publisherID: String) {
