@@ -88,10 +88,10 @@ class StoryAdapter(private val mContext: Context, private  val mStory:List<Story
 
                 if (snapshot.exists()) {
                     val user = snapshot.getValue<User>(User::class.java)
-                    Picasso.get().load(user!!.getImage()).into(viewHolder.story_img_seen)
+                    Picasso.get().load(user!!.getImage()).into(viewHolder.story_img)
                     if(pos!=0)
                     {
-                        Picasso.get().load(user.getImage()).into(viewHolder.story_img)
+                        Picasso.get().load(user.getImage()).into(viewHolder.story_img_seen)
                         viewHolder.story_username.text=user.getUsername()
                     }
                 }
