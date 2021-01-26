@@ -49,13 +49,13 @@ class HomeFragment : Fragment() {
          recyclerView.adapter=postAdapter
 
          //code for counting no of items in recycler view
-         if (postAdapter!!.itemCount == 0){
-             welcome_text.text = "Welcome to Instagram"
-         }
-         else
-         {
-             welcome_text.visibility=View.INVISIBLE
-         }
+//         if (postAdapter!!.itemCount == 0){
+//             welcome_text.text = "Welcome to Instagram"
+//         }
+//         else
+//         {
+//             welcome_text.visibility=View.INVISIBLE
+//         }
 
          var recyclerView_story:RecyclerView?=null
          recyclerView_story=view.findViewById(R.id.recyclerview_Story)

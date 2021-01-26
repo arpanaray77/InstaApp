@@ -78,7 +78,7 @@ class AddCommentActivity : AppCompatActivity() {
         val commentRef : DatabaseReference = FirebaseDatabase.getInstance().reference.child("Comment").child(postid)
 
         val commentMap = HashMap<String, Any>()
-        commentMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
+        commentMap["publisher"] = firebaseUser!!.uid
         commentMap["comment"] = add_comment.text.toString()
 
         commentRef.push().setValue(commentMap)

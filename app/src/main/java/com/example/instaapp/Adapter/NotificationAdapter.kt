@@ -56,7 +56,7 @@ class NotificationAdapter(private var mContext: Context,
         }
         else
         {
-            holder.postimg.visibility=View.INVISIBLE
+            holder.postimg.visibility=View.GONE
         }
 
         holder.postimg.setOnClickListener {
@@ -81,9 +81,9 @@ class NotificationAdapter(private var mContext: Context,
         }
     }
 
-    private fun publisherInfo(imgView: CircleImageView, username: TextView, publisherID: String) {
+    private fun publisherInfo(imgView: CircleImageView, username: TextView, publisherid: String) {
 
-        val userRef= FirebaseDatabase.getInstance().reference.child("Users").child(publisherID)
+        val userRef= FirebaseDatabase.getInstance().reference.child("Users").child(publisherid)
         userRef.addValueEventListener(object : ValueEventListener
         {
             override fun onCancelled(error: DatabaseError) {
@@ -91,14 +91,10 @@ class NotificationAdapter(private var mContext: Context,
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists())
-                {
-                    val user = snapshot.getValue<User>(User::class.java)
+                val user = snapshot.getValue<User>(User::class.java)
 
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(imgView)
-                    username.text =(user.getUsername())
-
-                }
+                Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(imgView)
+                username.text =(user.getUsername())
             }
         })
     }
@@ -111,11 +107,10 @@ class NotificationAdapter(private var mContext: Context,
 
             }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val post = snapshot.getValue<Post>(Post::class.java)
-                    Picasso.get().load(post!!.getPostImage()).into(postimg)
-                }
+            override fun onDataChange(snapshot: DataSnapshot)
+            {
+                val post = snapshot.getValue<Post>(Post::class.java)
+                Picasso.get().load(post!!.getPostImage()).into(postimg)
             }
         })
     }

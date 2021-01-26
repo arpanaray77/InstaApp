@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Adapter.NotificationAdapter
 import com.example.instaapp.Model.Notification
-import com.example.instaapp.Model.Post
 import com.example.instaapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -44,6 +43,7 @@ class NotificationFragment : Fragment() {
         notificationAdapter=context?.let { NotificationAdapter(it,notificationList as ArrayList<Notification>) }
         recyclerView.adapter=notificationAdapter
 
+        readNotification()
         return view
     }
 

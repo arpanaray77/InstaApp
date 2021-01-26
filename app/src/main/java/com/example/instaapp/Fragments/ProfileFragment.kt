@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_add_comment.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -71,6 +72,8 @@ class ProfileFragment: Fragment() {
                             .child("Follow").child(it1.toString())
                             .child("Following").child(profileId)
                             .setValue(true)
+
+                        pushNotification()
                     }
 
                     firebaseUser.uid.let { it1 ->
@@ -226,6 +229,20 @@ class ProfileFragment: Fragment() {
             }
         })
     }
+
+    private fun pushNotification() {
+
+        val ref = FirebaseDatabase.getInstance().reference.child("Notification").child(profileId)
+
+        val notifyMap = HashMap<String, Any>()
+        notifyMap["userid"] = FirebaseAuth.getInstance().currentUser!!.uid
+        notifyMap["text"] = "started following you "
+        notifyMap["postid"] = ""
+        notifyMap["ispost"] = true
+
+        ref.push().setValue(notifyMap)
+    }
+
 
     private fun getUserInfo(view: View) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
