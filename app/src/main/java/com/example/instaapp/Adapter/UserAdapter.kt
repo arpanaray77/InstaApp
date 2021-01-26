@@ -153,14 +153,13 @@ class UserAdapter (private var mContext:Context,
             }
 
             override fun onDataChange(datasnapshot: DataSnapshot) {
-                    if(datasnapshot.exists()) {
                         if (datasnapshot.child(uid).exists()) {
                             followButton.text = "Following"
-                        } else {
+                        }
+                        else {
                             followButton.text = "Follow"
-                     }
-                 }
-            }
+                        }
+                }
         })
     }
 }

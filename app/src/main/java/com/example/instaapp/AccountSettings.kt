@@ -88,7 +88,7 @@ class AccountSettings : AppCompatActivity() {
                 progressDialog.setMessage("updating...")
                 progressDialog.show()
 
-                val fileRef = storageProfileRef!!.child(firebaseUser.uid + ".jpg")
+                val fileRef = storageProfileRef!!.child(firebaseUser.uid.toString()+ ".jpg")
 
                 val uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
@@ -111,9 +111,9 @@ class AccountSettings : AppCompatActivity() {
 
                         val ref=FirebaseDatabase.getInstance().reference.child("Users")
                         val userMap = HashMap<String, Any>()
-                        userMap["fullname"] = accountSettings_fullname_profile.text.toString().toLowerCase()
+                        userMap["fullname"] = accountSettings_fullname_profile.text.toString()
                         userMap["username"] = accountSettings_username_profile.text.toString().toLowerCase()
-                        userMap["bio"] = accountSettings_bio_profile.text.toString().toLowerCase()
+                        userMap["bio"] = accountSettings_bio_profile.text.toString()
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)
@@ -160,9 +160,9 @@ class AccountSettings : AppCompatActivity() {
                 val userRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
                 //using hashmap to store values
                 val userMap = HashMap<String, Any>()
-                userMap["fullname"] = accountSettings_fullname_profile.text.toString().toLowerCase()
+                userMap["fullname"] = accountSettings_fullname_profile.text.toString()
                 userMap["username"] = accountSettings_username_profile.text.toString().toLowerCase()
-                userMap["bio"] = accountSettings_bio_profile.text.toString().toLowerCase()
+                userMap["bio"] = accountSettings_bio_profile.text.toString()
 
                 userRef.child(firebaseUser.uid).updateChildren(userMap)
 

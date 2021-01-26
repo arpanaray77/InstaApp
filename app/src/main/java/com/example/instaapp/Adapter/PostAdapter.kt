@@ -234,8 +234,7 @@ class PostAdapter
 
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-
-            }
+                }
 
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 likesNo.text = datasnapshot.childrenCount.toString()+" likes"

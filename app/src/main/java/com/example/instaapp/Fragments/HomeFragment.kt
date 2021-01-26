@@ -1,13 +1,10 @@
 package com.example.instaapp.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Adapter.PostAdapter
@@ -51,6 +48,14 @@ class HomeFragment : Fragment() {
          postAdapter=context?.let { PostAdapter(it,postList as ArrayList<Post>) }
          recyclerView.adapter=postAdapter
 
+         //code for counting no of items in recycler view
+         if (postAdapter!!.itemCount == 0){
+             welcome_text.text = "Welcome to Instagram"
+         }
+         else
+         {
+             welcome_text.visibility=View.INVISIBLE
+         }
 
          var recyclerView_story:RecyclerView?=null
          recyclerView_story=view.findViewById(R.id.recyclerview_Story)
@@ -60,7 +65,7 @@ class HomeFragment : Fragment() {
 
          storyList=ArrayList()
          storyAdapter=context?.let { StoryAdapter(it,storyList as ArrayList<Story>) }
-         var progressBar=view.findViewById<ProgressBar>(R.id.progress_circular)
+        // var progressBar=view.findViewById<ProgressBar>(R.id.progress_circular)
          checkFollowings()
 
         return view

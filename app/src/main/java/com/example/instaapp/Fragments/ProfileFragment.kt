@@ -103,7 +103,7 @@ class ProfileFragment: Fragment() {
         var recyclerView: RecyclerView?=null
         recyclerView=view.findViewById(R.id.recyclerview_profile)
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(context,3)
+        recyclerView.layoutManager = GridLayoutManager(context,3,GridLayoutManager.VERTICAL,false)
 
         postList=ArrayList()
         myPostAdapter= this.context?.let { MyPostAdapter(it, postList as ArrayList<Post>) }

@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
@@ -35,8 +36,7 @@ class SearchFragment : Fragment() {
 
         mUser = ArrayList()
         //to show a user on search
-        userAdapter = context?.let {
-            UserAdapter(it, mUser as ArrayList<User>, true)}
+        userAdapter = context?.let { UserAdapter(it, mUser as ArrayList<User>, true)}
         recyclerView?.adapter = userAdapter
 
         view.searchitem.addTextChangedListener(object : TextWatcher {
@@ -47,14 +47,11 @@ class SearchFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (view.searchitem.text.toString() == "") {
-
-                }
-                else
-                {
-                    recyclerView?.visibility=View.VISIBLE
+                if (searchitem.text.toString() == "") {
+                } else {
+                    recyclerView?.visibility = View.VISIBLE
                     retrieveUser()
-                    searchUser(s.toString())
+                    searchUser(s.toString().toLowerCase())
                 }
             }
         })
@@ -65,7 +62,7 @@ class SearchFragment : Fragment() {
 
         val query=FirebaseDatabase.getInstance().reference
             .child("Users")
-            .orderByChild("fullname")
+            .orderByChild("username")
             .startAt(input)
             .endAt(input + "\uf8ff")
 
@@ -101,22 +98,15 @@ class SearchFragment : Fragment() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                mUser?.clear()
-                for (snapShot in dataSnapshot.children) {
-                    val user = snapShot.getValue(User::class.java)
-                    val fullName = snapShot.child("fullname").value.toString()
-                    val userName = snapShot.child("username").value.toString()
-                    val email = snapShot.child("email").value.toString()
-                    val bio = snapShot.child("bio").value.toString()
-                    val image = snapShot.child("image").value.toString()
-                    val uid = snapShot.child("uid").value.toString()
-
-
-                    User(userName, fullName, bio, image, uid)
-                    if (user != null) {
-                        mUser?.add(User(userName, fullName, bio, image, uid))
+                if (view!!.searchitem.text.toString().equals("")) {
+                    mUser?.clear()
+                    for (snapShot in dataSnapshot.children) {
+                        val user = snapShot.getValue(User::class.java)
+                        if (user != null) {
+                            mUser?.add(user)
+                        }
+                        userAdapter?.notifyDataSetChanged()
                     }
-                    userAdapter?.notifyDataSetChanged()
                 }
             }
         })
