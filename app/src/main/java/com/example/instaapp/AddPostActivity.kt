@@ -34,6 +34,13 @@ class AddPostActivity : AppCompatActivity() {
 
         storagePostPictureRef= FirebaseStorage.getInstance().reference.child("Post Picture")
 
+        dont_post_picture.setOnClickListener {
+            val intent=Intent(this@AddPostActivity,MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
         post_picture.setOnClickListener {
             uploadPost()
         }

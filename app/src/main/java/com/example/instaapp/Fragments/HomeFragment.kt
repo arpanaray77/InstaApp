@@ -8,25 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instaapp.Adapter.PostAdapter
-import com.example.instaapp.Adapter.StoryAdapter
 import com.example.instaapp.Model.Post
-import com.example.instaapp.Model.Story
 import com.example.instaapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
     private var postAdapter:PostAdapter?=null
     private var postList:MutableList<Post>?=null
     private var followingList:MutableList<Post>?=null
-
-    private var storyAdapter: StoryAdapter?=null
-    private var storyList:MutableList<Story>?=null
 
 
      override fun onCreateView(
@@ -57,15 +51,6 @@ class HomeFragment : Fragment() {
 //             welcome_text.visibility=View.INVISIBLE
 //         }
 
-         var recyclerView_story:RecyclerView?=null
-         recyclerView_story=view.findViewById(R.id.recyclerview_Story)
-         recyclerView_story.setHasFixedSize(true)
-         val storyLayoutManager:LinearLayoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-         recyclerView_story.layoutManager=(storyLayoutManager)
-
-         storyList=ArrayList()
-         storyAdapter=context?.let { StoryAdapter(it,storyList as ArrayList<Story>) }
-        // var progressBar=view.findViewById<ProgressBar>(R.id.progress_circular)
          checkFollowings()
 
         return view
@@ -93,41 +78,8 @@ class HomeFragment : Fragment() {
                     {
                         snapshot.key?.let { (followingList as ArrayList<String>).add(it) }
                     }
-                    readStory()
                     retrievePosts()
                 }
-            }
-        })
-    }
-
-    private fun readStory () {
-
-        val Ref = FirebaseDatabase.getInstance().reference.child("Story")
-        Ref.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                var count=0
-                val timecurrent=System.currentTimeMillis()
-                storyList?.clear()
-                storyList!!.add(Story("","",FirebaseAuth.getInstance().currentUser!!.uid,0,0))
-
-                    for (id in (followingList as ArrayList<String>)) {
-                        var count = 0
-                        var story: Story? = null
-                        for (snapshot in p0.children) {
-                            story = snapshot.getValue(Story::class.java)
-                            if (timecurrent > story!!.getTimestart() && timecurrent < story.getTimeend()) {
-                                count += 1
-                            }
-                        }
-                        if (count > 0) {
-                            storyList!!.add(story!!)
-                        }
-                    }
-                storyAdapter!!.notifyDataSetChanged()
             }
         })
     }
