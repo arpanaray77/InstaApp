@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "123259231756",
-    "project_id": "instaapp-5d470",
-    "storage_bucket": "instaapp-5d470.appspot.com"
+    "project_number": "582745874438",
+    "project_id": "instagramclone-f0731",
+    "storage_bucket": "instagramclone-f0731.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123259231756:android:041707050432e2dec3d829",
+        "mobilesdk_app_id": "1:582745874438:android:b906643a5900192f2d6387",
         "android_client_info": {
           "package_name": "com.example.instaapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "123259231756-50uipleap9bj8r760oshefi8ipilcr1k.apps.googleusercontent.com",
+          "client_id": "582745874438-pdk2uo2ine16q532s4eio01ibok2ri2q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDwmKVjPLNoXQZnrxPSA0D7YIMlzdh3CSs"
+          "current_key": "AIzaSyC_SZVrNW4T12QILkA3UhnKbJukM2T51ZM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "123259231756-50uipleap9bj8r760oshefi8ipilcr1k.apps.googleusercontent.com",
+              "client_id": "582745874438-pdk2uo2ine16q532s4eio01ibok2ri2q.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
