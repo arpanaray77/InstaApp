@@ -2,6 +2,7 @@ package com.example.instaapp.Fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,7 @@ class PostDetailFragment : Fragment() {
     private fun readPosts(postid: String?) {
         val postRef= FirebaseDatabase.getInstance().reference.child("Posts").child(postid!!)
 
+        Log.d("Post id",postid)
         postRef.addValueEventListener(object : ValueEventListener
         {
             override fun onCancelled(error: DatabaseError) {
@@ -58,13 +60,10 @@ class PostDetailFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot)
             {
-                    postList?.clear()
-                    for (snapshot in p0.children)
-                    {
-                        val post:Post?= snapshot.getValue(Post::class.java)
-                        postList!!.add(post!!)
-                         postAdapter!!.notifyDataSetChanged()
-                    }
+                postList?.clear()
+                val post: Post? = p0.getValue(Post::class.java)
+                postList!!.add(post!!)
+                postAdapter!!.notifyDataSetChanged()
                 }
             })
         }
