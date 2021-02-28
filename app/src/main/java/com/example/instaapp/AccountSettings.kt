@@ -48,6 +48,13 @@ class AccountSettings : AppCompatActivity() {
             finish()
         }
 
+        close_button.setOnClickListener {
+            val intent=Intent(this@AccountSettings,MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
         //edit user's profile Image
         accountSettings_change_profile.setOnClickListener {
              checker="clicked"
