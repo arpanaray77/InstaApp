@@ -1,6 +1,7 @@
 package com.example.instaapp.Adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,6 +103,7 @@ class NotificationAdapter(private var mContext: Context,
     private fun getPostedImg(postimg:ImageView, postid:String?) {
 
         val postRef= FirebaseDatabase.getInstance().reference.child("Posts").child(postid!!)
+
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
@@ -109,8 +111,8 @@ class NotificationAdapter(private var mContext: Context,
 
             override fun onDataChange(snapshot: DataSnapshot)
             {
-                val post = snapshot.getValue<Post>(Post::class.java)
-                Picasso.get().load(post!!.getPostImage()).into(postimg)
+                val post = snapshot.getValue(Post::class.java)
+              //  Picasso.get().load(post!!.getPostImage()).into(postimg)
             }
         })
     }

@@ -57,7 +57,7 @@ class PostDetailFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
 
             }
-
+                   //showing post details
             override fun onDataChange(p0: DataSnapshot)
             {
                 postList?.clear()
